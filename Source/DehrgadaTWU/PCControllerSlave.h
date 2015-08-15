@@ -12,12 +12,38 @@ UCLASS()
 class DEHRGADATWU_API APCControllerSlave : public AAIController
 {
 	GENERATED_BODY()
+protected:
+	class FCommand* Command;
+
+	void LoadCommand();
 
 public:
 
+	class ADehrgadaTWUCharacter* GetDehrgadaTWUCharacter() { return (ADehrgadaTWUCharacter*)GetCharacter(); }
+
+	void ReceiveCommand(FCommand* command);
+
 	/** Navigate player to the given world location. */
-	void SetNewMoveDestination(const FVector DestLocation);
+	void SetNewMoveDestination(const FVector destLocation);
+
+	/** Navigate player to the given target. */
+	void SetNewMoveDestination(class APawn* target);
 
 	int slaveIndex;
 
+	void OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result) override;
+
+	void Tick( float DeltaSeconds) override;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Command")
+	bool bPerformingCommand;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Command")
+	bool bLockCommand;
+
+	UFUNCTION(BlueprintCallable, Category = "Command")
+	void ResolveCommand();
+
+	UFUNCTION(BlueprintCallable, Category = "Command")
+	void CompleteCommand();
 };

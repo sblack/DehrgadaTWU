@@ -3,6 +3,8 @@
 #include "DehrgadaTWU.h"
 #include "PCControllerSlave.h"
 #include "CameraPawn.h"
+#include "FCommand.h"
+#include "FCommandAttack.h"
 #include <vector>
 #include "Engine.h"
 #include "EngineUtils.h"
@@ -44,6 +46,8 @@ void APCControllerMaster::SetupInputComponent()
 	InputComponent->BindAction("ZoomIn", IE_Pressed, this, &APCControllerMaster::ZoomIn);
 	InputComponent->BindAction("ZoomOut", IE_Pressed, this, &APCControllerMaster::ZoomOut);
 
+	InputComponent->BindAction("ReattachCamera", IE_Pressed, this, &APCControllerMaster::AttachCamera);
+
 	InputComponent->BindAxis("MoveForward", this, &APCControllerMaster::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &APCControllerMaster::MoveRight);
 	InputComponent->BindAxis("RotateCamera", this, &APCControllerMaster::RotateCamera);
@@ -81,13 +85,18 @@ void APCControllerMaster::OnLeftClickUp()
 	if (Hit.Actor->ActorHasTag(FName("Terrain")))
 	{
 		//UE_LOG(LogTemp, Log, TEXT("%s"),*Hit.Location.ToString());
-		Slaves[CurrentSlave]->SetNewMoveDestination(Hit.Location);
+		//Slaves[CurrentSlave]->SetNewMoveDestination(Hit.Location);
+		Slaves[CurrentSlave]->ReceiveCommand(new FCommand(Hit.Location));
 	}
 	else if (Hit.Actor->ActorHasTag(FName("Party")))
 	{
 		AController* temp = ((APawn*)(Hit.GetActor()))->GetController();
 		CurrentSlave = ((APCControllerSlave*)temp)->slaveIndex;
 		AttachCamera();
+	}
+	else if (Hit.Actor->ActorHasTag(FName("Enemy")))
+	{
+		Slaves[CurrentSlave]->ReceiveCommand(new FCommandAttack((APawn*)(Hit.GetActor())));
 	}
 	else
 	{
