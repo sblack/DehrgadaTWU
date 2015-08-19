@@ -7,7 +7,7 @@
 
 FCommandAttack::FCommandAttack(APawn* pawn) : FCommand(pawn)
 {
-
+	Name = "Attack";
 }
 
 FCommandAttack::~FCommandAttack()

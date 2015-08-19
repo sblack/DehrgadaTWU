@@ -5,6 +5,7 @@
 #include "CameraPawn.h"
 #include "FCommand.h"
 #include "FCommandAttack.h"
+#include "CommandMenuCPP.h"
 #include <vector>
 #include "Engine.h"
 #include "EngineUtils.h"
@@ -42,6 +43,7 @@ void APCControllerMaster::SetupInputComponent()
 
 	InputComponent->BindAction("LeftClick", IE_Pressed, this, &APCControllerMaster::OnLeftClickDown);
 	InputComponent->BindAction("LeftClick", IE_Released, this, &APCControllerMaster::OnLeftClickUp);
+	InputComponent->BindAction("RightClick", IE_Released, this, &APCControllerMaster::OnRightClickUp);
 
 	InputComponent->BindAction("ZoomIn", IE_Pressed, this, &APCControllerMaster::ZoomIn);
 	InputComponent->BindAction("ZoomOut", IE_Pressed, this, &APCControllerMaster::ZoomOut);
@@ -85,7 +87,6 @@ void APCControllerMaster::OnLeftClickUp()
 	if (Hit.Actor->ActorHasTag(FName("Terrain")))
 	{
 		//UE_LOG(LogTemp, Log, TEXT("%s"),*Hit.Location.ToString());
-		//Slaves[CurrentSlave]->SetNewMoveDestination(Hit.Location);
 		Slaves[CurrentSlave]->ReceiveCommand(new FCommand(Hit.Location));
 	}
 	else if (Hit.Actor->ActorHasTag(FName("Party")))
@@ -101,6 +102,28 @@ void APCControllerMaster::OnLeftClickUp()
 	else
 	{
 		UE_LOG(LogTemp, Log, TEXT("%s has no Left Click-relevant tag"), *Hit.Actor->GetName());
+	}
+}
+
+void APCControllerMaster::OnRightClickUp()
+{
+	FHitResult Hit;
+	GetHitResultUnderCursor(ECC_Camera, false, Hit);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Right Click"));
+
+	if (!Hit.bBlockingHit) return;
+
+	if (Hit.Actor->ActorHasTag(FName("Terrain")))
+	{
+		OpenCommandMenu();
+		CommandMenu->Prepare(Hit.Location);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Terrain"));
+	}
+	else
+	{
+		OpenCommandMenu();
+		CommandMenu->Prepare(Hit.GetActor());
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Not Terrain"));
 	}
 }
 
@@ -147,10 +170,12 @@ void APCControllerMaster::MoveRight(float value)
 void APCControllerMaster::RotateCamera(float value)
 {
 	if (value == 0) return;
-	//FRotator rot = FRotator(0, value, 0);
 	CameraForward = CameraForward.RotateAngleAxis(value, FVector::UpVector);
 	CameraRight = CameraRight.RotateAngleAxis(value, FVector::UpVector);
 	CameraPawn->SetActorRotation(CameraForward.Rotation() + FRotator(-60, 0, 0));
 }
 
-
+void APCControllerMaster::ReceiveCommandFromGUI(FCommand* command)
+{
+	Slaves[CurrentSlave]->ReceiveCommand(command);
+}

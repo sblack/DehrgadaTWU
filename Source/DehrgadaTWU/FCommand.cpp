@@ -10,12 +10,14 @@ FCommand::FCommand(FVector location)
 	TargetLocation = location;
 	TargetPawn = NULL;
 	Proximity = 10;
+	Name = "Move";
 }
 
 FCommand::FCommand(APawn* pawn)
 {
 	TargetPawn = pawn;
 	Proximity = 150;
+	Name = "Approach";
 }
 
 FCommand::~FCommand()

@@ -3,7 +3,7 @@
 #ifndef __DEHRGADATWU_H__
 #define __DEHRGADATWU_H__
 
-#include "EngineMinimal.h"
+#include "Engine.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogDehrgadaTWU, Log, All);
 

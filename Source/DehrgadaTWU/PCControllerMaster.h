@@ -16,6 +16,8 @@ class DEHRGADATWU_API APCControllerMaster : public APlayerController
 public:
 	APCControllerMaster();
 
+	void ReceiveCommandFromGUI(class FCommand* command);
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -26,11 +28,18 @@ protected:
 
 	void OnLeftClickDown();
 	void OnLeftClickUp();
+	void OnRightClickUp();
 	void ZoomIn();
 	void ZoomOut();
 	void MoveForward(float value);
 	void MoveRight(float value);
 	void RotateCamera(float value);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Commands")
+	virtual void OpenCommandMenu();
+
+	UPROPERTY(BlueprintReadWrite, Category = "Commands")
+	class UCommandMenuCPP* CommandMenu;
 
 
 	class ACameraPawn* CameraPawn;

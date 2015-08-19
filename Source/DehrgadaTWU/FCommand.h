@@ -15,6 +15,9 @@ protected:
 public:
 	class APCControllerSlave* Performer;
 
+	//probably want to change this to FText eventually
+	FString Name;
+
 	class APawn* GetTargetPawn() const { return TargetPawn; }
 
 	FVector	GetTargetLocation() const

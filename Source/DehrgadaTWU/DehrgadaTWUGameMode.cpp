@@ -9,6 +9,11 @@ ADehrgadaTWUGameMode::ADehrgadaTWUGameMode()
 {
 	// use our custom PlayerController class
 	PlayerControllerClass = APCControllerMaster::StaticClass();
+	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerBPClass(TEXT("/Game/TopDown/Blueprints/PCControllerMasterBP"));
+	if (PlayerControllerBPClass.Class != NULL)
+	{
+		PlayerControllerClass = PlayerControllerBPClass.Class;
+	}
 
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/TopDown/Blueprints/TopDownCharacter"));
