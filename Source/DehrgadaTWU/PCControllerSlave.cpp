@@ -88,7 +88,7 @@ void APCControllerSlave::Tick(float DeltaSeconds)
 void APCControllerSlave::ResolveCommand()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Vive la resolution!"));
-
+	Command->Resolve();
 	bLockCommand = true;
 }
 

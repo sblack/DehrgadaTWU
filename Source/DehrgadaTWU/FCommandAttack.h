@@ -14,4 +14,6 @@ public:
 	~FCommandAttack();
 
 	virtual void Perform() override;
+
+	virtual void Resolve() override;
 };

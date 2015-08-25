@@ -1,6 +1,7 @@
 // Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
 
 #include "DehrgadaTWU.h"
+#include "SheetStats.h"
 #include "DehrgadaTWUCharacter.h"
 
 ADehrgadaTWUCharacter::ADehrgadaTWUCharacter()
@@ -13,5 +14,9 @@ ADehrgadaTWUCharacter::ADehrgadaTWUCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
+}
 
+void ADehrgadaTWUCharacter::BeginPlay()
+{
+	Stats = (USheetStats*)GetComponentByClass(USheetStats::StaticClass());
 }

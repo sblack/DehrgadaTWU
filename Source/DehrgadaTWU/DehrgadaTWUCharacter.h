@@ -12,7 +12,12 @@ class ADehrgadaTWUCharacter : public ACharacter
 public:
 	ADehrgadaTWUCharacter();
 
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "AnimTriggers")
 		bool bAttacking;
+
+	class USheetStats * Stats;
 };
 
