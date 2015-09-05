@@ -3,10 +3,11 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
+#include "StatEnums.h"
 #include "SheetStats.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class DEHRGADATWU_API USheetStats : public UActorComponent
 {
 	GENERATED_BODY()
@@ -18,13 +19,30 @@ public:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	
-	// Called every frame
 	//virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 Strength;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 Dexterity;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 Vitality;
+	UPROPERTY(BlueprintReadWrite)
+	class ADehrgadaTWUCharacter* Character;
+
+	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadWrite)
+		TArray<uint8> Attributes;
+
+	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
+		TArray<uint8> AttributesTotal;
+
+	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadWrite)
+		TArray<int32> Vitals;
+
+	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
+		TArray<int32> VitalsTotal;
+
+	UPROPERTY(BlueprintReadWrite)
+		TArray<int32> VitalsCurrent;
+
+	FReply UpdateFromDetailPanel();
+
+	void UpdateTotals();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Vitals")
+		void ApplyDamage(int32 damage, EVitals targetVital);
 };

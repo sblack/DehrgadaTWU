@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "DehrgadaTWU.h"
+#include "DehrgadaTWUCharacter.h"
 #include "SheetStats.h"
 
 
@@ -12,7 +13,19 @@ USheetStats::USheetStats()
 	bWantsBeginPlay = true;
 	//PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	for (int i = 0; i < StatEnums::Attributes()->GetMaxEnumValue(); i++)
+	{
+		Attributes.Add(5);
+		AttributesTotal.Add(0);
+	}
+
+	for (int i = 0; i < StatEnums::Vitals()->GetMaxEnumValue(); i++)
+	{
+		Vitals.Add(0);
+		VitalsTotal.Add(0);
+		VitalsCurrent.Add(0);
+	}
+
 }
 
 
@@ -20,6 +33,13 @@ USheetStats::USheetStats()
 void USheetStats::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UpdateTotals();
+
+	for (int i = 0; i < VitalsCurrent.Num(); i++)
+	{
+		VitalsCurrent[i] = VitalsTotal[i];
+	}
 
 	// ...
 	
@@ -34,3 +54,24 @@ void USheetStats::BeginPlay()
 //	// ...
 //}
 
+FReply USheetStats::UpdateFromDetailPanel()
+{
+	//UE_LOG(LogTemp, Log, TEXT("Button Clicked!"));
+	//UE_LOG(LogTemp, Log, TEXT("%s  Attributes.Num() = %d"), *GetName(), Attributes.Num());
+	//Attributes[0] += 1;
+	UpdateTotals();
+	return FReply::Handled();
+
+}
+
+void USheetStats::UpdateTotals()
+{
+	for (int i = 0; i < Attributes.Num(); i++)
+	{
+		AttributesTotal[i] = Attributes[i];
+	}
+
+	VitalsTotal[(int)EVitals::Health] = Vitals[(int)EVitals::Health] + AttributesTotal[(int)EAttributes::Strength] + 5 * AttributesTotal[(int)EAttributes::Vitality];
+	VitalsTotal[(int)EVitals::Clarity] = Vitals[(int)EVitals::Clarity] + 2 * AttributesTotal[(int)EAttributes::Intellect] + 4 * AttributesTotal[(int)EAttributes::Focus];
+	VitalsTotal[(int)EVitals::Stamina] = Vitals[(int)EVitals::Stamina] + 3 * AttributesTotal[(int)EAttributes::Dexterity] + 3 * AttributesTotal[(int)EAttributes::Vitality];
+}

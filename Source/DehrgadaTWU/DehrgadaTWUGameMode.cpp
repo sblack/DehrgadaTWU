@@ -3,6 +3,7 @@
 #include "DehrgadaTWU.h"
 #include "DehrgadaTWUGameMode.h"
 #include "PCControllerMaster.h"
+#include "DetailCustomizations/SheetStatsCustomization.h"
 #include "DehrgadaTWUCharacter.h"
 
 ADehrgadaTWUGameMode::ADehrgadaTWUGameMode()
@@ -21,4 +22,8 @@ ADehrgadaTWUGameMode::ADehrgadaTWUGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+
+	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
+	//Custom detail views
+	PropertyModule.RegisterCustomClassLayout("SheetStats", FOnGetDetailCustomizationInstance::CreateStatic(&SheetStatsCustomization::MakeInstance));
 }

@@ -17,6 +17,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "AnimTriggers")
 		bool bAttacking;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "AnimTriggers")
+		bool bDying;
 
 	class USheetStats * Stats;
 };

@@ -3,6 +3,7 @@
 #include "DehrgadaTWU.h"
 #include "PCControllerSlave.h"
 #include "DehrgadaTWUCharacter.h"
+#include "SheetStats.h"
 #include "RollCalculatorCPP.h"
 #include "FCommandAttack.h"
 
@@ -27,6 +28,10 @@ void FCommandAttack::Resolve()
 	if (result)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Hit!");
+		if (TargetPawn->IsA<ADehrgadaTWUCharacter>())
+		{
+			Cast<ADehrgadaTWUCharacter>(TargetPawn)->Stats->ApplyDamage(10, EVitals::Health);
+		}
 	}
 	else
 	{

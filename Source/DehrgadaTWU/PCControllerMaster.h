@@ -36,7 +36,7 @@ protected:
 	void RotateCamera(float value);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Commands")
-	virtual void OpenCommandMenu();
+	void OpenCommandMenu();
 
 	UPROPERTY(BlueprintReadWrite, Category = "Commands")
 	class UCommandMenuCPP* CommandMenu;

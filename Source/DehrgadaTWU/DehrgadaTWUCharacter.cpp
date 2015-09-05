@@ -18,5 +18,8 @@ ADehrgadaTWUCharacter::ADehrgadaTWUCharacter()
 
 void ADehrgadaTWUCharacter::BeginPlay()
 {
+	Super::BeginPlay();
+
 	Stats = (USheetStats*)GetComponentByClass(USheetStats::StaticClass());
+	Stats->Character = this;
 }

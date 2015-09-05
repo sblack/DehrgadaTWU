@@ -6,8 +6,11 @@ public class DehrgadaTWU : ModuleRules
 {
 	public DehrgadaTWU(TargetInfo Target)
 	{
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG" });
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "PropertyEditor" });
 
-        PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
+        PrivateDependencyModuleNames.AddRange(new string[] { });
+
+        // Uncomment if you are using Slate UI
+        PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore", "Json", "Core", "CoreUObject", "UnrealEd", "EditorStyle" });
 	}
 }

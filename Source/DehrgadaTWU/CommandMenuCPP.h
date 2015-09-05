@@ -29,11 +29,11 @@ protected:
 	void SetupMenu();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Default")
-	virtual void AddButton(const FString& name, int32 index);
+	void AddButton(const FString& name, int32 index);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Default")
-	virtual void Reposition(int32 count);
+	void Reposition(int32 count);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Default")
-	virtual void Close();
+	void Close();
 };

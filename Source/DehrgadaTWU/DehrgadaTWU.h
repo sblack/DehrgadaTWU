@@ -4,6 +4,7 @@
 #define __DEHRGADATWU_H__
 
 #include "Engine.h"
+#include "StatEnums.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogDehrgadaTWU, Log, All);
 
