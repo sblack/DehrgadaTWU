@@ -16,7 +16,5 @@ class DEHRGADATWU_API UDehrgadaBFL : public UBlueprintFunctionLibrary
 public:
 	//Why is this not part of the standard library?
 	UFUNCTION(BlueprintCallable, Category = "Utilities")
-	static UObject* CreateObject(UClass* Class);
-	
-	
+		static UObject* CreateObject(UClass* Class);
 };

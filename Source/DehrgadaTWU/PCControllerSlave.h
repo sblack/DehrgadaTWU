@@ -3,6 +3,7 @@
 #pragma once
 
 #include "AIController.h"
+#include "FCommand.h"
 #include "PCControllerSlave.generated.h"
 
 /**
@@ -13,7 +14,7 @@ class DEHRGADATWU_API APCControllerSlave : public AAIController
 {
 	GENERATED_BODY()
 protected:
-	class FCommand* Command;
+	FCommand* Command;
 
 	void LoadCommand();
 

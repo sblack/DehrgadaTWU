@@ -7,6 +7,11 @@
 #include "RollCalculatorCPP.h"
 #include "FCommandAttack.h"
 
+FCommandAttack::FCommandAttack() : FCommand()
+{
+	Name = "Attack";
+}
+
 FCommandAttack::FCommandAttack(APawn* pawn) : FCommand(pawn)
 {
 	Name = "Attack";

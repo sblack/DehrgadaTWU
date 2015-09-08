@@ -1,15 +1,17 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+#include "FCommand.generated.h"
 
 /**
  * 
  */
-class DEHRGADATWU_API FCommand
+USTRUCT(BlueprintType)
+struct DEHRGADATWU_API FCommand
 {
+	GENERATED_USTRUCT_BODY()
 protected:
-	FVector TargetLocation;
-	class APawn* TargetPawn;
+	
 	/** distance at which Performer should stop moving and act */
 	float Proximity;
 public:
@@ -17,6 +19,12 @@ public:
 
 	//probably want to change this to FText eventually
 	FString Name;
+
+	UPROPERTY(BlueprintReadOnly)
+	FVector TargetLocation;
+
+	UPROPERTY(BlueprintReadOnly)
+	class APawn* TargetPawn;
 
 	class APawn* GetTargetPawn() const { return TargetPawn; }
 
@@ -27,6 +35,8 @@ public:
 	}
 
 	float GetProximitySqr() { return Proximity * Proximity; }
+
+	FCommand();
 
 	FCommand(FVector location);
 

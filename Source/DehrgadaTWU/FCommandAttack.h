@@ -3,13 +3,17 @@
 #pragma once
 
 #include "FCommand.h"
+#include "FCommandAttack.generated.h"
 
 /**
  * 
  */
-class DEHRGADATWU_API FCommandAttack : public FCommand
+USTRUCT()
+struct DEHRGADATWU_API FCommandAttack : public FCommand
 {
+	GENERATED_USTRUCT_BODY()
 public:
+	FCommandAttack();
 	FCommandAttack(class APawn* pawn);
 	~FCommandAttack();
 

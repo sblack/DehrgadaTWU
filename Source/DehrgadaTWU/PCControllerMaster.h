@@ -4,6 +4,7 @@
 
 #include <vector>
 #include "GameFramework/PlayerController.h"
+#include "FCommand.h"
 #include "PCControllerMaster.generated.h"
 
 /**
@@ -16,7 +17,7 @@ class DEHRGADATWU_API APCControllerMaster : public APlayerController
 public:
 	APCControllerMaster();
 
-	void ReceiveCommandFromGUI(class FCommand* command);
+	void ReceiveCommandFromGUI(FCommand* command);
 
 protected:
 

@@ -5,6 +5,11 @@
 #include "Engine.h"
 #include "FCommand.h"
 
+FCommand::FCommand()
+{
+	Name = "Umm...";
+}
+
 FCommand::FCommand(FVector location)
 {
 	TargetLocation = location;
@@ -22,6 +27,7 @@ FCommand::FCommand(APawn* pawn)
 
 FCommand::~FCommand()
 {
+	TargetPawn = nullptr;
 }
 
 void FCommand::Perform()

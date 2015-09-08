@@ -9,4 +9,3 @@ UObject* UDehrgadaBFL::CreateObject(UClass* Class)
 	return hate;
 }
 
-
