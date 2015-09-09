@@ -1,3 +1,15 @@
+#Unreal Engine Files
+Content/Maps
+Content/Meshes
+Content/Animations
+Content/Materials
+Content/Resources
+Content/VFX
+Content/Audio
+Content/Design
+Content/GUI
+Content/_Tests
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
