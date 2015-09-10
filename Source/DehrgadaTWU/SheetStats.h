@@ -4,6 +4,7 @@
 
 #include "Components/ActorComponent.h"
 #include "StatEnums.h"
+#include "DamageData.h"
 #include "SheetStats.generated.h"
 
 
@@ -39,10 +40,19 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		TArray<int32> VitalsCurrent;
 
+	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadWrite)
+		TArray<float> Resists;
+
+	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
+		TArray<float> ResistsTotal;
+
 	FReply UpdateFromDetailPanel();
 
 	void UpdateTotals();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Vitals")
-		void ApplyDamage(int32 damage, EVitals targetVital);
+		void ApplyDamage(UDamageData* damage, float mult, int32 add);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Vitals")
+		void CheckVitals();
 };

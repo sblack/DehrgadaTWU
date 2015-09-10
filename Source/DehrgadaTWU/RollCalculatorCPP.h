@@ -18,8 +18,11 @@ public:
 	
 	//Blueprint wants nothing to do with your useful static members, so we have to bypass it
 	UFUNCTION(BlueprintCallable, Category = "Static")
-	void SetInstance(URollCalculatorCPP* instance);
+		void SetInstance(URollCalculatorCPP* instance);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Roll")
-	void RollAttack(bool& result);
+		void RollAttack(bool& result);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Roll")
+		void RollDamage(int32 min, int32 max, int32& result);
 };

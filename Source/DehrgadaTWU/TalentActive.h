@@ -8,7 +8,7 @@
 /**
  * 
  */
-UCLASS(Abstract)
+UCLASS()
 class DEHRGADATWU_API UTalentActive : public UTalent
 {
 	GENERATED_BODY()

@@ -26,6 +26,12 @@ USheetStats::USheetStats()
 		VitalsCurrent.Add(0);
 	}
 
+	//No resistance/weakness against Typeless
+	for (int i = 0; i < StatEnums::Damage()->GetMaxEnumValue() - 1; i++)
+	{
+		Resists.Add(0);
+		ResistsTotal.Add(0);
+	}
 }
 
 
@@ -74,4 +80,9 @@ void USheetStats::UpdateTotals()
 	VitalsTotal[(int)EVitals::Health] = Vitals[(int)EVitals::Health] + AttributesTotal[(int)EAttributes::Strength] + 5 * AttributesTotal[(int)EAttributes::Vitality];
 	VitalsTotal[(int)EVitals::Clarity] = Vitals[(int)EVitals::Clarity] + 2 * AttributesTotal[(int)EAttributes::Intellect] + 4 * AttributesTotal[(int)EAttributes::Focus];
 	VitalsTotal[(int)EVitals::Stamina] = Vitals[(int)EVitals::Stamina] + 3 * AttributesTotal[(int)EAttributes::Dexterity] + 3 * AttributesTotal[(int)EAttributes::Vitality];
+
+	for (int i = 0; i < Resists.Num(); i++)
+	{
+		ResistsTotal[i] = Resists[i] + AttributesTotal[(int)EAttributes::Vitality] * .01f;
+	}
 }

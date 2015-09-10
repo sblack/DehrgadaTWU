@@ -16,6 +16,7 @@ void SheetStatsCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailBuild
 	UpdateButton(DetailBuilder);
 	StatDetails(DetailBuilder, TEXT("Attributes"), StatEnums::Attributes());
 	StatDetails(DetailBuilder, TEXT("Vitals"), StatEnums::Vitals());
+	StatDetails(DetailBuilder, TEXT("Resists"), StatEnums::Damage());
 }
 
 void SheetStatsCustomization::UpdateButton(IDetailLayoutBuilder& DetailBuilder)
