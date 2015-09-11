@@ -5,6 +5,7 @@
 
 #include "Engine.h"
 #include "StatEnums.h"
+#include "TargetableInterface.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogDehrgadaTWU, Log, All);
 

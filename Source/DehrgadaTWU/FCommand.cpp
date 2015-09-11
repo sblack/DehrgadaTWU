@@ -13,21 +13,20 @@ FCommand::FCommand()
 FCommand::FCommand(FVector location)
 {
 	TargetLocation = location;
-	TargetPawn = NULL;
+	Target = TScriptInterface<ITargetableInterface>();
 	Proximity = 10;
 	Name = "Move";
 }
 
-FCommand::FCommand(APawn* pawn)
+FCommand::FCommand(ITargetable target)
 {
-	TargetPawn = pawn;
+	Target = target;
 	Proximity = 150;
 	Name = "Approach";
 }
 
 FCommand::~FCommand()
 {
-	TargetPawn = nullptr;
 }
 
 void FCommand::Perform()

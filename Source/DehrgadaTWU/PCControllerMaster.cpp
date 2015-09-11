@@ -89,19 +89,26 @@ void APCControllerMaster::OnLeftClickUp()
 		//UE_LOG(LogTemp, Log, TEXT("%s"),*Hit.Location.ToString());
 		Slaves[CurrentSlave]->ReceiveCommand(new FCommand(Hit.Location));
 	}
-	else if (Hit.Actor->ActorHasTag(FName("Party")))
+	else if (Hit.Actor->GetClass()->ImplementsInterface(UTargetableInterface::StaticClass()))
 	{
-		AController* temp = ((APawn*)(Hit.GetActor()))->GetController();
-		CurrentSlave = ((APCControllerSlave*)temp)->slaveIndex;
-		AttachCamera();
-	}
-	else if (Hit.Actor->ActorHasTag(FName("Enemy")))
-	{
-		Slaves[CurrentSlave]->ReceiveCommand(new FCommandAttack((APawn*)(Hit.GetActor())));
+		if (Hit.Actor->ActorHasTag(FName("Party")))
+		{
+			AController* temp = ((APawn*)(Hit.GetActor()))->GetController();
+			CurrentSlave = ((APCControllerSlave*)temp)->slaveIndex;
+			AttachCamera();
+		}
+		else if (Hit.Actor->ActorHasTag(FName("Enemy")))
+		{
+			Slaves[CurrentSlave]->ReceiveCommand(new FCommandAttack(ITargetableInterface::Targetable(Hit.GetActor())));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("%s has no Left Click-relevant tag"), *Hit.Actor->GetName());
+		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Log, TEXT("%s has no Left Click-relevant tag"), *Hit.Actor->GetName());
+		UE_LOG(LogTemp, Log, TEXT("%s is neither terrain nor targetable"), *Hit.Actor->GetName());
 	}
 }
 
@@ -119,10 +126,10 @@ void APCControllerMaster::OnRightClickUp()
 		CommandMenu->Prepare(Hit.Location);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Terrain"));
 	}
-	else
+	else if (Hit.Actor->GetClass()->ImplementsInterface(UTargetableInterface::StaticClass()))
 	{
 		OpenCommandMenu();
-		CommandMenu->Prepare(Hit.GetActor());
+		CommandMenu->Prepare(ITargetableInterface::Targetable(Hit.GetActor()));
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Not Terrain"));
 	}
 }

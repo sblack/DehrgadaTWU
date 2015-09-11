@@ -17,9 +17,9 @@ void APCControllerSlave::LoadCommand()
 	if (Command)
 	{
 		Command->Performer = this;
-		if (Command->GetTargetPawn())
+		if (Command->GetTarget())
 		{
-			SetNewMoveDestination(Command->GetTargetPawn());
+			SetNewMoveDestination(Command->GetTarget());
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Pawn!"));
 		}
 		else
@@ -46,18 +46,18 @@ void APCControllerSlave::SetNewMoveDestination(const FVector destLocation)
 	}
 }
 
-void APCControllerSlave::SetNewMoveDestination(APawn* target)
+void APCControllerSlave::SetNewMoveDestination(ITargetable target)
 {
 	APawn* const Pawn = GetPawn();
 	if (Pawn)
 	{
 		UNavigationSystem* const NavSys = GetWorld()->GetNavigationSystem();
-		float const Distance = FVector::Dist(target->GetActorLocation(), Pawn->GetActorLocation());
+		float const Distance = FVector::Dist(target->Location(), Pawn->GetActorLocation());
 
 		// We need to issue move command only if far enough in order for walk animation to play correctly
 		if (NavSys && (Distance > 120.0f))
 		{
-			NavSys->SimpleMoveToActor(this, target);
+			NavSys->SimpleMoveToActor(this, target->AsActor());
 		}
 	}
 }

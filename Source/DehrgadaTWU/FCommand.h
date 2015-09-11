@@ -24,13 +24,13 @@ public:
 	FVector TargetLocation;
 
 	UPROPERTY(BlueprintReadOnly)
-	class APawn* TargetPawn;
+		TScriptInterface<ITargetableInterface> Target;
 
-	class APawn* GetTargetPawn() const { return TargetPawn; }
+	ITargetable GetTarget() const { return Target; }
 
 	FVector	GetTargetLocation() const
 	{
-		if (TargetPawn) return TargetPawn->GetActorLocation();
+		if (Target) return Target->Location();
 		return TargetLocation;
 	}
 
@@ -40,7 +40,7 @@ public:
 
 	FCommand(FVector location);
 
-	FCommand(APawn* pawn);
+	FCommand(ITargetable target);
 
 	~FCommand();
 

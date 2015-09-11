@@ -14,7 +14,7 @@ struct DEHRGADATWU_API FCommandAttack : public FCommand
 	GENERATED_USTRUCT_BODY()
 public:
 	FCommandAttack();
-	FCommandAttack(class APawn* pawn);
+	FCommandAttack(ITargetable target);
 	~FCommandAttack();
 
 	virtual void Perform() override;

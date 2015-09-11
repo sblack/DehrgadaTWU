@@ -20,7 +20,7 @@ public:
 	
 	void Prepare(FVector location);
 
-	void Prepare(AActor* target);
+	void Prepare(ITargetable target);
 
 	UFUNCTION(BlueprintCallable, Category = "Default")
 	void Select(int32 index);

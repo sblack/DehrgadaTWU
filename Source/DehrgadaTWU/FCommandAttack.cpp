@@ -13,7 +13,7 @@ FCommandAttack::FCommandAttack() : FCommand()
 	Name = "Attack";
 }
 
-FCommandAttack::FCommandAttack(APawn* pawn) : FCommand(pawn)
+FCommandAttack::FCommandAttack(ITargetable target) : FCommand(target)
 {
 	Name = "Attack";
 }
@@ -34,11 +34,8 @@ void FCommandAttack::Resolve()
 	if (result)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Hit!");
-		if (TargetPawn->IsA<ADehrgadaTWUCharacter>())
-		{
-			UDamageData* damage = UDamageData::NewDamage(EDamage::Slashing, EVitals::Health, 1, 5);
-			Cast<ADehrgadaTWUCharacter>(TargetPawn)->Stats->ApplyDamage(damage,1.f,0);
-		}
+		UDamageData* damage = UDamageData::NewDamage(EDamage::Slashing, EVitals::Health, 1, 5);
+		Target->ApplyDamage(damage, 1.f, 0);
 	}
 	else
 	{

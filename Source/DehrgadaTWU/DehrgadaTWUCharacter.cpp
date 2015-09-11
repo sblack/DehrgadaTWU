@@ -23,3 +23,8 @@ void ADehrgadaTWUCharacter::BeginPlay()
 	Stats = (USheetStats*)GetComponentByClass(USheetStats::StaticClass());
 	Stats->Character = this;
 }
+
+void ADehrgadaTWUCharacter::ApplyDamage(UDamageData* damage, float mult, int32 add)
+{
+	Stats->ApplyDamage(damage, mult, add);
+}

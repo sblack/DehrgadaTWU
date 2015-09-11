@@ -16,15 +16,11 @@ void UCommandMenuCPP::Prepare(FVector location)
 	SetupMenu();
 }
 
-void UCommandMenuCPP::Prepare(AActor* target)
+void UCommandMenuCPP::Prepare(ITargetable target)
 {
 	Commands.clear();
-	APawn* targetPawn = (APawn*)target;
-	if (targetPawn != NULL)
-	{
-		Commands.insert(Commands.end(), new FCommand(targetPawn));
-		Commands.insert(Commands.end(), new FCommandAttack(targetPawn));
-	}
+	Commands.insert(Commands.end(), new FCommand(target));
+	Commands.insert(Commands.end(), new FCommandAttack(target));
 	
 	SetupMenu();
 }

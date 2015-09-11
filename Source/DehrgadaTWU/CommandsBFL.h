@@ -20,8 +20,8 @@ public:
 		static FCommand MoveTo(FVector location);
 	//Generates Command: move/follow pawn until close
 	UFUNCTION(BlueprintCallable, Category = "Command")
-		static FCommand Approach(APawn* pawn);
+		static FCommand Approach(TScriptInterface<ITargetableInterface> target);
 	//Generates Attack Command
 	UFUNCTION(BlueprintCallable, Category = "Command")
-		static FCommandAttack Attack(APawn* pawn);
+		static FCommandAttack Attack(TScriptInterface<ITargetableInterface> target);
 };

@@ -28,7 +28,7 @@ public:
 	void SetNewMoveDestination(const FVector destLocation);
 
 	/** Navigate player to the given target. */
-	void SetNewMoveDestination(class APawn* target);
+	void SetNewMoveDestination(ITargetable target);
 
 	int slaveIndex;
 

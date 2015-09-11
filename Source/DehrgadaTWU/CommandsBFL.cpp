@@ -10,12 +10,12 @@ FCommand UCommandsBFL::MoveTo(FVector location)
 	return FCommand(location);
 }
 
-FCommand UCommandsBFL::Approach(APawn* pawn)
+FCommand UCommandsBFL::Approach(TScriptInterface<ITargetableInterface> target)
 {
-	return FCommand(pawn);
+	return FCommand(target);
 }
 
-FCommandAttack UCommandsBFL::Attack(APawn* pawn)
+FCommandAttack UCommandsBFL::Attack(TScriptInterface<ITargetableInterface> target)
 {
-	return FCommandAttack(pawn);
+	return FCommandAttack(target);
 }
