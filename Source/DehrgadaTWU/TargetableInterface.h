@@ -6,7 +6,7 @@
 /**
  * 
  */
-UINTERFACE(Blueprintable)
+UINTERFACE(BlueprintType, meta = (CannotImplementInterfaceInBlueprint))
 class DEHRGADATWU_API UTargetableInterface : public UInterface
 {
 	GENERATED_UINTERFACE_BODY()
@@ -20,6 +20,9 @@ public:
 	FVector Location() const { return AsActor()->GetActorLocation(); }
 
 	virtual void ApplyDamage(class UDamageData* damage, float mult, int32 add) {}
+
+	UFUNCTION(BlueprintCallable, Category = "Target")
+		virtual float GetDefense(EDefenses defense) const { return 5.f; }
 
 	static TScriptInterface<ITargetableInterface> Targetable(AActor* actor);
 };

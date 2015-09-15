@@ -29,16 +29,19 @@ void FCommandAttack::Perform()
 
 void FCommandAttack::Resolve()
 {
-	bool result;
-	URollCalculatorCPP::Instance->RollAttack(result);
+	UE_LOG(LogTemp, Log, TEXT("-----------"));
+	bool result = true;
+	URollCalculatorCPP::Instance->MeleeAttack(Target, Performer->GetDehrgadaTWUCharacter(), EDefenses::Deflection, result);
 	if (result)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Hit!");
+		UE_LOG(LogTemp, Log, TEXT("Hit"));
 		UDamageData* damage = UDamageData::NewDamage(EDamage::Slashing, EVitals::Health, 1, 5);
 		Target->ApplyDamage(damage, 1.f, 0);
 	}
 	else
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Miss.");
+		UE_LOG(LogTemp, Log, TEXT("Miss"));
 	}
 }

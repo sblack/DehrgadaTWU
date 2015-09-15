@@ -65,7 +65,7 @@ void APCControllerSlave::SetNewMoveDestination(ITargetable target)
 void APCControllerSlave::OnMoveCompleted(FAIRequestID RequestID, EPathFollowingResult::Type Result)
 {
 	Super::OnMoveCompleted(RequestID, Result);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Yes, this works"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Yes, this works"));
 }
 
 void APCControllerSlave::Tick(float DeltaSeconds)
@@ -87,7 +87,7 @@ void APCControllerSlave::Tick(float DeltaSeconds)
 
 void APCControllerSlave::ResolveCommand()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Vive la resolution!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Vive la resolution!"));
 	Command->Resolve();
 	bLockCommand = true;
 }

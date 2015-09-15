@@ -46,6 +46,12 @@ public:
 	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<float> ResistsTotal;
 
+	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadWrite)
+		TArray<float> Defenses;
+
+	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
+		TArray<float> DefensesTotal;
+
 	FReply UpdateFromDetailPanel();
 
 	void UpdateTotals();

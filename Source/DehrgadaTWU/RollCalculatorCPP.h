@@ -3,12 +3,13 @@
 #pragma once
 
 #include "Object.h"
+#include "TargetableInterface.h"
 #include "RollCalculatorCPP.generated.h"
 
 /**
  * 
  */
-UCLASS(Blueprintable)
+UCLASS(Blueprintable, Abstract)
 class DEHRGADATWU_API URollCalculatorCPP : public UObject
 {
 	GENERATED_BODY()
@@ -20,9 +21,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Static")
 		void SetInstance(URollCalculatorCPP* instance);
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Roll")
-		void RollAttack(bool& result);
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Roll")
+		void Attack_NoUser(const TScriptInterface<ITargetableInterface>& target, float modifier, EDefenses defense, bool& result);
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Roll")
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Roll")
+		void MeleeAttack(const TScriptInterface<ITargetableInterface>& target, class ADehrgadaTWUCharacter* user, EDefenses defense, bool& result);
+
+	//UFUNCTION(BlueprintImplementableEvent, Category = "Roll")
+	//	void RangedAttack(const TScriptInterface<ITargetableInterface>& target, class ADehrgadaTWUCharacter* user, EDefenses defense, bool& result);
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Roll")
+		void MagicAttack(const TScriptInterface<ITargetableInterface>& target, class ADehrgadaTWUCharacter* user, EDefenses defense, bool& result);
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Roll")
 		void RollDamage(int32 min, int32 max, int32& result);
 };

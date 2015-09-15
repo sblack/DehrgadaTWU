@@ -32,6 +32,12 @@ USheetStats::USheetStats()
 		Resists.Add(0);
 		ResistsTotal.Add(0);
 	}
+
+	for (int i = 0; i < StatEnums::Defenses()->GetMaxEnumValue(); i++)
+	{
+		Defenses.Add(0);
+		DefensesTotal.Add(0);
+	}
 }
 
 
@@ -85,4 +91,9 @@ void USheetStats::UpdateTotals()
 	{
 		ResistsTotal[i] = Resists[i] + AttributesTotal[(int)EAttributes::Vitality] * .01f;
 	}
+
+	DefensesTotal[(int)EDefenses::Reflex] = Defenses[(int)EDefenses::Reflex] + .5f * AttributesTotal[(int)EAttributes::Dexterity];
+	DefensesTotal[(int)EDefenses::Deflection] = Defenses[(int)EDefenses::Deflection] + DefensesTotal[(int)EDefenses::Reflex];
+	DefensesTotal[(int)EDefenses::Fortitude] = Defenses[(int)EDefenses::Fortitude] + .5f * AttributesTotal[(int)EAttributes::Vitality];
+	DefensesTotal[(int)EDefenses::Psyche] = Defenses[(int)EDefenses::Psyche] + .5f * AttributesTotal[(int)EAttributes::Focus];
 }

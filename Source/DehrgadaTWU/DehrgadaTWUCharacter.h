@@ -4,7 +4,7 @@
 #include "TargetableInterface.h"
 #include "DehrgadaTWUCharacter.generated.h"
 
-UCLASS(Blueprintable)
+UCLASS(Blueprintable, Abstract)
 class ADehrgadaTWUCharacter : public ACharacter, public ITargetableInterface
 {
 	GENERATED_BODY()
@@ -24,5 +24,14 @@ public:
 	class USheetStats * Stats;
 
 	void ApplyDamage(class UDamageData* damage, float mult, int32 add) override;
+
+	UFUNCTION()
+		float GetDefense(EDefenses defense) const override;
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Combat")
+		void GetMeleeAttack(float& result) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Combat")
+		void GetMagicAttack(float& result) const;
 };
 

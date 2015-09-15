@@ -28,3 +28,8 @@ void ADehrgadaTWUCharacter::ApplyDamage(UDamageData* damage, float mult, int32 a
 {
 	Stats->ApplyDamage(damage, mult, add);
 }
+
+float ADehrgadaTWUCharacter::GetDefense(EDefenses defense) const
+{
+	return Stats->DefensesTotal[(int)defense] + 10.f;
+}
