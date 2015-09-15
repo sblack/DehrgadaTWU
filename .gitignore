@@ -9,7 +9,22 @@ Content/Audio
 Content/Design
 Content/GUI
 Content/_Tests
-
+Content/Abilities
+Content/AI
+Content/Base
+Content/Characters
+Content/Effects
+Content/Environmental
+Content/Experimental
+Content/Gameplay
+Content/Items
+Content/Maps
+Content/PostProcess
+Content/Quests
+Content/Sound
+Content/UI
+Content/Core
+Content/Environment
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
