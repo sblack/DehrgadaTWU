@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "DehrgadaTWU.h"
+#include "CombatEffectDamage.h"
 #include "AreaOfEffect.h"
 
 AAreaOfEffect::AAreaOfEffect(const FObjectInitializer& ObjectInitializer)
@@ -54,7 +55,27 @@ void AAreaOfEffect::Tick(float DeltaSeconds)
 
 void AAreaOfEffect::ApplyEffect(ACharacter* Character)
 {
+	TScriptInterface<ITargetableInterface> target = ITargetableInterface::Targetable(Character);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Yo: %f"), GetWorld()->TimeSeconds));
+	for (int i = 0; i < Effects.Num(); i++)
+	{
+		if (Effects[i]->AttackRoll_NoUser(target, 0))
+		{
+			Effects[i]->Apply(target, NULL, GetActorLocation());
+		}
+		else
+		{
+			if (Effects[i]->IsA<UCombatEffectDamage>())
+			{
+				UCombatEffectDamage* dam = Cast<UCombatEffectDamage>(Effects[i]);
+				if (dam->bHalfOnMiss)
+				{
+					dam->Apply_MA(target, NULL, .5f, 0);
+				}
+			}
+			break;
+		}
+	}
 }
 
 

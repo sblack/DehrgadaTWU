@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS(BlueprintType)
+UCLASS(BlueprintType, EditInlineNew)
 class DEHRGADATWU_API UDamageData : public UObject
 {
 	GENERATED_BODY()

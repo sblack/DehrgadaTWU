@@ -31,12 +31,12 @@ class DEHRGADATWU_API UCombatEffectResistable : public UCombatEffect
 	GENERATED_BODY()
 public:
 	//If true, CombatEffect always hits
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default)
 		bool bNoDefense;
 	//If false, use weave attack roll. Ranged only ever uses projectiles, so this never applies to them.
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default)
 		bool bUseMeleeAttackRoll;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default)
 		EDefenses Defense;
 
 	UFUNCTION(BlueprintCallable, Category = "Combat")
