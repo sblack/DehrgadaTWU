@@ -10,12 +10,12 @@
 
 FCommandAttack::FCommandAttack() : FCommand()
 {
-	Name = "Attack";
+	Name = FText::FromString("Attack");
 }
 
 FCommandAttack::FCommandAttack(ITargetable target) : FCommand(target)
 {
-	Name = "Attack";
+	Name = FText::FromString("Attack");
 }
 
 FCommandAttack::~FCommandAttack()

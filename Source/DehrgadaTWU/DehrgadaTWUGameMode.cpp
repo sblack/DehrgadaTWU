@@ -10,7 +10,7 @@ ADehrgadaTWUGameMode::ADehrgadaTWUGameMode()
 {
 	// use our custom PlayerController class
 	PlayerControllerClass = APCControllerMaster::StaticClass();
-	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerBPClass(TEXT("/Game/TopDown/Blueprints/PCControllerMasterBP"));
+	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerBPClass(TEXT("/Game/Gameplay/PCControllerMasterBP"));
 	if (PlayerControllerBPClass.Class != NULL)
 	{
 		PlayerControllerClass = PlayerControllerBPClass.Class;

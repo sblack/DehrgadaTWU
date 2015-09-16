@@ -7,7 +7,7 @@
 
 FCommand::FCommand()
 {
-	Name = "Umm...";
+	Name = FText::FromString("Umm...");
 }
 
 FCommand::FCommand(FVector location)
@@ -15,14 +15,14 @@ FCommand::FCommand(FVector location)
 	TargetLocation = location;
 	Target = TScriptInterface<ITargetableInterface>();
 	Proximity = 10;
-	Name = "Move";
+	Name = FText::FromString("Move");
 }
 
 FCommand::FCommand(ITargetable target)
 {
 	Target = target;
 	Proximity = 150;
-	Name = "Approach";
+	Name = FText::FromString("Approach");
 }
 
 FCommand::~FCommand()

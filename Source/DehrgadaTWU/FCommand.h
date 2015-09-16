@@ -18,7 +18,7 @@ public:
 	class APCControllerSlave* Performer;
 
 	//probably want to change this to FText eventually
-	FString Name;
+	FText Name;
 
 	UPROPERTY(BlueprintReadOnly)
 	FVector TargetLocation;

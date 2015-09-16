@@ -30,7 +30,7 @@ protected:
 	void SetupMenu();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Default")
-	void AddButton(const FString& name, int32 index);
+	void AddButton(const FText& name, int32 index);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Default")
 	void Reposition(int32 count);

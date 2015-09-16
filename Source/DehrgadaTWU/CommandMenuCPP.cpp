@@ -33,7 +33,7 @@ void UCommandMenuCPP::SetupMenu()
 	{
 		AddButton(Commands[i]->Name, i);
 	}
-	AddButton("Cancel", Commands.size());
+	AddButton(FText::FromString("Cancel"), Commands.size());
 
 	Reposition(Commands.size());
 }
