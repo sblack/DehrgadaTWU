@@ -5,6 +5,7 @@
 #include "Components/ActorComponent.h"
 #include "StatEnums.h"
 #include "DamageData.h"
+#include "HealData.h"
 #include "SheetStats.generated.h"
 
 
@@ -58,6 +59,9 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Vitals")
 		void ApplyDamage(UDamageData* damage, float mult, int32 add);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Vitals")
+		void ApplyHeal(UHealData* heal);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Vitals")
 		void CheckVitals();

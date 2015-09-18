@@ -27,6 +27,7 @@ public:
 	class USheetTalents * Talents;
 
 	void ApplyDamage(class UDamageData* damage, float mult, int32 add) override;
+	void ApplyHeal(class UHealData* heal) override;
 
 	UFUNCTION()
 		float GetDefense(EDefenses defense) const override;
