@@ -23,6 +23,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 		virtual void Remove(TScriptInterface<ITargetableInterface> target) {}
 	
+
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+		static void ApplyEffects(TScriptInterface<ITargetableInterface> target, TArray<UCombatEffect*> effects, class ADehrgadaTWUCharacter* user, FVector location = FVector::ZeroVector);
 };
 
 UCLASS(Abstract)

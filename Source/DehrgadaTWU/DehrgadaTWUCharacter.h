@@ -20,8 +20,11 @@ public:
 		bool bAttacking;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "AnimTriggers")
 		bool bDying;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "AnimTriggers")
+		bool bCasting;
 
 	class USheetStats * Stats;
+	class USheetTalents * Talents;
 
 	void ApplyDamage(class UDamageData* damage, float mult, int32 add) override;
 

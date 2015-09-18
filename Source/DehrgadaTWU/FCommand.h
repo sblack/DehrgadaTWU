@@ -17,7 +17,6 @@ protected:
 public:
 	class APCControllerSlave* Performer;
 
-	//probably want to change this to FText eventually
 	FText Name;
 
 	UPROPERTY(BlueprintReadOnly)

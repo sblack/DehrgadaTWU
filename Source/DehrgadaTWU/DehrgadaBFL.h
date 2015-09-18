@@ -17,4 +17,7 @@ public:
 	//Why is this not part of the standard library?
 	UFUNCTION(BlueprintCallable, Category = "Utilities")
 		static UObject* CreateObject(UClass* Class);
+
+	UFUNCTION(BlueprintPure, Category = "Utilities")
+		static TScriptInterface<ITargetableInterface> ToTargetable(AActor* actor) { return ITargetableInterface::Targetable(actor); }
 };

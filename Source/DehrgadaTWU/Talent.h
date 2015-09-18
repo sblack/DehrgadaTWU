@@ -2,19 +2,20 @@
 
 #pragma once
 
-#include "Object.h"
+#include "Engine/DataAsset.h"
 #include "Talent.generated.h"
 
 /**
  * 
  */
-UCLASS(BlueprintType, Const, Abstract)
-class DEHRGADATWU_API UTalent : public UObject
+UCLASS(BlueprintType, Abstract, Const)
+class DEHRGADATWU_API UTalent : public UDataAsset
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		FText Name;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		FText Description;
 	
 };

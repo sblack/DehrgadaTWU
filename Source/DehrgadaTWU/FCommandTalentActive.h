@@ -22,4 +22,8 @@ public:
 	FCommandTalentActive(UTalentActive* talent, ITargetable target);
 	FCommandTalentActive(UTalentActive* talent, FVector location);
 	~FCommandTalentActive();
+
+	virtual void Perform() override;
+
+	virtual void Resolve() override;
 };

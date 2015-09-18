@@ -122,13 +122,13 @@ void APCControllerMaster::OnRightClickUp()
 
 	if (Hit.Actor->ActorHasTag(FName("Terrain")))
 	{
-		OpenCommandMenu();
+		OpenCommandMenu(Slaves[CurrentSlave]->GetDehrgadaTWUCharacter());
 		CommandMenu->Prepare(Hit.Location);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Terrain"));
 	}
 	else if (Hit.Actor->GetClass()->ImplementsInterface(UTargetableInterface::StaticClass()))
 	{
-		OpenCommandMenu();
+		OpenCommandMenu(Slaves[CurrentSlave]->GetDehrgadaTWUCharacter());
 		CommandMenu->Prepare(ITargetableInterface::Targetable(Hit.GetActor()));
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Not Terrain"));
 	}

@@ -2,6 +2,7 @@
 
 #include "DehrgadaTWU.h"
 #include "SheetStats.h"
+#include "SheetTalents.h"
 #include "DehrgadaTWUCharacter.h"
 
 ADehrgadaTWUCharacter::ADehrgadaTWUCharacter()
@@ -22,6 +23,9 @@ void ADehrgadaTWUCharacter::BeginPlay()
 
 	Stats = (USheetStats*)GetComponentByClass(USheetStats::StaticClass());
 	Stats->Character = this;
+
+	Talents = (USheetTalents*)GetComponentByClass(USheetTalents::StaticClass());
+	Talents->Character = this;
 }
 
 void ADehrgadaTWUCharacter::ApplyDamage(UDamageData* damage, float mult, int32 add)

@@ -26,6 +26,8 @@ public:
 	void Select(int32 index);
 	
 protected:
+	UPROPERTY(BlueprintReadWrite)
+	class ADehrgadaTWUCharacter* ActiveCharacter;
 	
 	void SetupMenu();
 
