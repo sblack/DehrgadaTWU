@@ -33,7 +33,15 @@ void UCommandMenuCPP::Prepare(ITargetable target)
 	Commands.clear();
 	Commands.insert(Commands.end(), new FCommand(target));
 	Commands.insert(Commands.end(), new FCommandAttack(target));
-	
+	if (ActiveCharacter == nullptr)
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("ActiveCharacter Missing"));
+	else
+	{
+		for (int i = 0; i < ActiveCharacter->Talents->ActiveTalents.Num(); i++)
+		{
+			Commands.insert(Commands.end(), new FCommandTalentActive(ActiveCharacter->Talents->ActiveTalents[i], target));
+		}
+	}
 	SetupMenu();
 }
 

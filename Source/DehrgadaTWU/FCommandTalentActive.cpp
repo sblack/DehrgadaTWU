@@ -48,9 +48,11 @@ void FCommandTalentActive::Resolve()
 	if (Target && Talent->bCanTargetActor)
 	{
 		ATalentManagerCPP::Instance->Use_Target(Talent, Performer->GetDehrgadaTWUCharacter(), Target);
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Target!"));
 	}
 	else
 	{
-		ATalentManagerCPP::Instance->Use_Location(Talent, Performer->GetDehrgadaTWUCharacter(), TargetLocation);
+		ATalentManagerCPP::Instance->Use_Location(Talent, Performer->GetDehrgadaTWUCharacter(), GetTargetLocation());
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Location!"));
 	}
 }
