@@ -14,6 +14,7 @@
 APCControllerMaster::APCControllerMaster()
 {
 	bShowMouseCursor = true;
+	bEnableMouseOverEvents = true;
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
 	CameraForward = FVector::ForwardVector;
 	CameraRight = FVector::RightVector;
@@ -61,6 +62,7 @@ void APCControllerMaster::AttachCamera()
 	CameraPawn->AttachRootComponentToActor(slave->GetPawn(), NAME_None, EAttachLocation::SnapToTarget);
 	CameraPawn->SetActorRotation(CameraForward.Rotation() + FRotator(-60, 0, 0));
 	bFreeCamera = false;
+	OnActiveCharacterChanged();
 }
 
 void APCControllerMaster::ReleaseCamera()
@@ -185,4 +187,9 @@ void APCControllerMaster::RotateCamera(float value)
 void APCControllerMaster::ReceiveCommandFromGUI(FCommand* command)
 {
 	Slaves[CurrentSlave]->ReceiveCommand(command);
+}
+
+ADehrgadaTWUCharacter* APCControllerMaster::ActiveCharacter()
+{
+	return Slaves[CurrentSlave]->GetDehrgadaTWUCharacter();
 }

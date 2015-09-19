@@ -13,6 +13,21 @@ TSharedRef<IDetailCustomization> SheetStatsCustomization::MakeInstance()
 
 void SheetStatsCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
+	IDetailCategoryBuilder& Category = DetailBuilder.EditCategory("Name", FText::GetEmpty(), ECategoryPriority::Important);
+	TSharedRef<IPropertyHandle> NameHandle = DetailBuilder.GetProperty(FName("Name"));
+	Category.AddCustomRow(LOCTEXT("Name", "Name"))
+		.NameContent()
+		[
+			SNew(STextBlock)
+			.Text(LOCTEXT("Name", "Name"))
+			.Font(IDetailLayoutBuilder::GetDetailFont())
+		]
+	.ValueContent().MinDesiredWidth(500)
+		[
+			SNew(SProperty, NameHandle)
+			.ShouldDisplayName(false)
+		];
+
 	UpdateButton(DetailBuilder);
 	StatDetails(DetailBuilder, TEXT("Attributes"), StatEnums::Attributes());
 	StatDetails(DetailBuilder, TEXT("Vitals"), StatEnums::Vitals());

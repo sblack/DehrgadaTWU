@@ -22,6 +22,8 @@ public:
 	virtual void BeginPlay() override;
 	
 	//virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		FText Name;
 
 	UPROPERTY(BlueprintReadWrite)
 	class ADehrgadaTWUCharacter* Character;

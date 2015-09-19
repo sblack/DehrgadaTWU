@@ -42,6 +42,11 @@ protected:
 	UPROPERTY(BlueprintReadWrite, Category = "Commands")
 	class UCommandMenuCPP* CommandMenu;
 
+	UFUNCTION(BlueprintPure, Category = "Default")
+	class ADehrgadaTWUCharacter* ActiveCharacter();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Default")
+		void OnActiveCharacterChanged();
 
 	class ACameraPawn* CameraPawn;
 
