@@ -34,11 +34,15 @@ public:
 	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<uint8> AttributesTotal;
 
+	TArray<uint8> AttributesBuff;
+
 	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<int32> Vitals;
 
 	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<int32> VitalsTotal;
+
+	TArray<uint8> VitalsBuff;
 
 	UPROPERTY(BlueprintReadWrite)
 		TArray<int32> VitalsCurrent;
@@ -49,15 +53,22 @@ public:
 	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<float> ResistsTotal;
 
+	TArray<uint8> ResistsBuff;
+
 	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<float> Defenses;
 
 	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<float> DefensesTotal;
 
+	TArray<uint8> DefensesBuff;
+
 	FReply UpdateFromDetailPanel();
 
 	void UpdateTotals();
+	void UpdateVitals();
+	void UpdateResists();
+	void UpdateDefenses();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Vitals")
 		void ApplyDamage(UDamageData* damage, float mult, int32 add);

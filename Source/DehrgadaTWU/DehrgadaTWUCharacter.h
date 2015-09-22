@@ -25,9 +25,11 @@ public:
 
 	class USheetStats * Stats;
 	class USheetTalents * Talents;
+	class USheetBuffs * Buffs;
 
 	void ApplyDamage(class UDamageData* damage, float mult, int32 add) override;
 	void ApplyHeal(class UHealData* heal) override;
+	void ApplyBuff(class UBuffBase* buff) override;
 
 	UFUNCTION()
 		float GetDefense(EDefenses defense) const override;

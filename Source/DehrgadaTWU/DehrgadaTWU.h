@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include "StatEnums.h"
 #include "TargetableInterface.h"
+#include "WorldTimer.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogDehrgadaTWU, Log, All);
 

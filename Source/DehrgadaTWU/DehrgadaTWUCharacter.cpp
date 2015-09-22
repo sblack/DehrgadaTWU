@@ -3,6 +3,7 @@
 #include "DehrgadaTWU.h"
 #include "SheetStats.h"
 #include "SheetTalents.h"
+#include "SheetBuffs.h"
 #include "DehrgadaTWUCharacter.h"
 
 ADehrgadaTWUCharacter::ADehrgadaTWUCharacter()
@@ -26,6 +27,9 @@ void ADehrgadaTWUCharacter::BeginPlay()
 
 	Talents = (USheetTalents*)GetComponentByClass(USheetTalents::StaticClass());
 	Talents->Character = this;
+
+	Buffs = (USheetBuffs*)GetComponentByClass(USheetBuffs::StaticClass());
+	Buffs->Character = this;
 }
 
 void ADehrgadaTWUCharacter::ApplyDamage(UDamageData* damage, float mult, int32 add)
@@ -36,6 +40,11 @@ void ADehrgadaTWUCharacter::ApplyDamage(UDamageData* damage, float mult, int32 a
 void ADehrgadaTWUCharacter::ApplyHeal(UHealData* heal)
 {
 	Stats->ApplyHeal(heal);
+}
+
+void ADehrgadaTWUCharacter::ApplyBuff(UBuffBase* buff)
+{
+	Buffs->ApplyBuff(buff);
 }
 
 float ADehrgadaTWUCharacter::GetDefense(EDefenses defense) const

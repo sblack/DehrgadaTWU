@@ -27,7 +27,7 @@ void AAreaOfEffect::NotifyActorBeginOverlap(AActor* OtherActor)
 				return;
 			}
 		}
-		RecentAffected.Emplace(character, GetWorld()->TimeSeconds + 5.0f);
+		RecentAffected.Emplace(character, AWorldTimer::Instance->GetTimeSeconds() + AWorldTimer::TurnLength);
 		ApplyEffect(character);
 	}
 }
@@ -36,13 +36,13 @@ void AAreaOfEffect::Tick(float DeltaSeconds)
 {
 	while (RecentAffected.Num() > 0)
 	{
-		if (RecentAffected[0].Get<1>() <= GetWorld()->TimeSeconds)
+		if (RecentAffected[0].Get<1>() <= AWorldTimer::Instance->GetTimeSeconds())
 		{
 			ACharacter* character = RecentAffected[0].Get<0>();
 			RecentAffected.RemoveAt(0);
 			if (IsOverlappingActor(character))
 			{
-				RecentAffected.Emplace(character, GetWorld()->TimeSeconds + 5.0f);
+				RecentAffected.Emplace(character, AWorldTimer::Instance->GetTimeSeconds() + AWorldTimer::TurnLength);
 				ApplyEffect(character);
 			}
 		}
@@ -56,7 +56,7 @@ void AAreaOfEffect::Tick(float DeltaSeconds)
 void AAreaOfEffect::ApplyEffect(ACharacter* Character)
 {
 	TScriptInterface<ITargetableInterface> target = ITargetableInterface::Targetable(Character);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Yo: %f"), GetWorld()->TimeSeconds));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Yo: %f"), AWorldTimer::Instance->GetTimeSeconds()));
 	for (int i = 0; i < Effects.Num(); i++)
 	{
 		if (Effects[i]->AttackRoll_NoUser(target, 0))

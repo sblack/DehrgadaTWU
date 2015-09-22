@@ -17,13 +17,15 @@ USheetStats::USheetStats()
 	{
 		Attributes.Add(5);
 		AttributesTotal.Add(0);
+		AttributesBuff.Add(0);
 	}
 
 	for (int i = 0; i < StatEnums::Vitals()->GetMaxEnumValue(); i++)
 	{
 		Vitals.Add(0);
 		VitalsTotal.Add(0);
-		VitalsCurrent.Add(0);
+		VitalsBuff.Add(0);
+		VitalsCurrent.Add(1);
 	}
 
 	//No resistance/weakness against Typeless
@@ -31,12 +33,14 @@ USheetStats::USheetStats()
 	{
 		Resists.Add(0);
 		ResistsTotal.Add(0);
+		ResistsBuff.Add(0);
 	}
 
 	for (int i = 0; i < StatEnums::Defenses()->GetMaxEnumValue(); i++)
 	{
 		Defenses.Add(0);
 		DefensesTotal.Add(0);
+		DefensesBuff.Add(0);
 	}
 }
 
@@ -76,24 +80,40 @@ FReply USheetStats::UpdateFromDetailPanel()
 
 }
 
+//no UpdateAttributes, because Attributes affect everything anyway
 void USheetStats::UpdateTotals()
 {
 	for (int i = 0; i < Attributes.Num(); i++)
 	{
-		AttributesTotal[i] = Attributes[i];
+		AttributesTotal[i] = Attributes[i] + AttributesBuff[i];
 	}
 
-	VitalsTotal[(int)EVitals::Health] = Vitals[(int)EVitals::Health] + AttributesTotal[(int)EAttributes::Strength] + 5 * AttributesTotal[(int)EAttributes::Vitality];
-	VitalsTotal[(int)EVitals::Clarity] = Vitals[(int)EVitals::Clarity] + 2 * AttributesTotal[(int)EAttributes::Intellect] + 4 * AttributesTotal[(int)EAttributes::Focus];
-	VitalsTotal[(int)EVitals::Stamina] = Vitals[(int)EVitals::Stamina] + 3 * AttributesTotal[(int)EAttributes::Dexterity] + 3 * AttributesTotal[(int)EAttributes::Vitality];
+	UpdateVitals();
+	UpdateResists();
+	UpdateDefenses();
+}
 
+void USheetStats::UpdateVitals()
+{
+	VitalsTotal[(int)EVitals::Health] = Vitals[(int)EVitals::Health] + VitalsBuff[(int)EVitals::Health] + AttributesTotal[(int)EAttributes::Strength] + 5 * AttributesTotal[(int)EAttributes::Vitality];
+	VitalsTotal[(int)EVitals::Clarity] = Vitals[(int)EVitals::Clarity] + VitalsBuff[(int)EVitals::Clarity] + 2 * AttributesTotal[(int)EAttributes::Intellect] + 4 * AttributesTotal[(int)EAttributes::Focus];
+	VitalsTotal[(int)EVitals::Stamina] = Vitals[(int)EVitals::Stamina] + VitalsBuff[(int)EVitals::Stamina] + 3 * AttributesTotal[(int)EAttributes::Dexterity] + 3 * AttributesTotal[(int)EAttributes::Vitality];
+	
+	CheckVitals();
+}
+
+void USheetStats::UpdateResists()
+{
 	for (int i = 0; i < Resists.Num(); i++)
 	{
-		ResistsTotal[i] = Resists[i] + AttributesTotal[(int)EAttributes::Vitality] * .01f;
+		ResistsTotal[i] = Resists[i] + ResistsBuff[i] + AttributesTotal[(int)EAttributes::Vitality] * .01f;
 	}
+}
 
-	DefensesTotal[(int)EDefenses::Reflex] = Defenses[(int)EDefenses::Reflex] + .5f * AttributesTotal[(int)EAttributes::Dexterity];
-	DefensesTotal[(int)EDefenses::Deflection] = Defenses[(int)EDefenses::Deflection] + DefensesTotal[(int)EDefenses::Reflex];
-	DefensesTotal[(int)EDefenses::Fortitude] = Defenses[(int)EDefenses::Fortitude] + .5f * AttributesTotal[(int)EAttributes::Vitality];
-	DefensesTotal[(int)EDefenses::Psyche] = Defenses[(int)EDefenses::Psyche] + .5f * AttributesTotal[(int)EAttributes::Focus];
+void USheetStats::UpdateDefenses()
+{
+	DefensesTotal[(int)EDefenses::Reflex] = Defenses[(int)EDefenses::Reflex] + DefensesBuff[(int)EDefenses::Reflex] + .5f * AttributesTotal[(int)EAttributes::Dexterity];
+	DefensesTotal[(int)EDefenses::Deflection] = Defenses[(int)EDefenses::Deflection] + DefensesBuff[(int)EDefenses::Deflection] + DefensesTotal[(int)EDefenses::Reflex];
+	DefensesTotal[(int)EDefenses::Fortitude] = Defenses[(int)EDefenses::Fortitude] + DefensesBuff[(int)EDefenses::Fortitude] + .5f * AttributesTotal[(int)EAttributes::Vitality];
+	DefensesTotal[(int)EDefenses::Psyche] = Defenses[(int)EDefenses::Psyche] + DefensesBuff[(int)EDefenses::Psyche] + .5f * AttributesTotal[(int)EAttributes::Focus];
 }
