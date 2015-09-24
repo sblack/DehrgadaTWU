@@ -15,7 +15,7 @@ protected:
 	/** distance at which Performer should stop moving and act */
 	float Proximity;
 public:
-	class APCControllerSlave* Performer;
+	class ACommandDrivenController* Performer;
 
 	FText Name;
 
