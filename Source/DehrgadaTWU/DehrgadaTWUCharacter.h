@@ -16,6 +16,13 @@ public:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	//how far below transform location are the "feet"
+	UPROPERTY(EditDefaultsOnly)
+		float FeetOffset;
+
+	UFUNCTION(BlueprintPure, Category = "Utilities|Transformation")
+	FVector GetFeetLocation() const { return GetActorLocation() - FeetOffset * FVector::UpVector; }
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "AnimTriggers")
 		bool bAttacking;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "AnimTriggers")

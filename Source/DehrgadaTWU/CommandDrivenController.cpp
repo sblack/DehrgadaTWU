@@ -1,11 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "DehrgadaTWU.h"
+#include "DehrgadaTWUCharacter.h"
 #include "CommandDrivenController.h"
 
 void ACommandDrivenController::ReceiveCommand(FCommand* command)
 {
 	Command = command;
+
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Command Received!"));
 
 	LoadCommand();
 }
@@ -72,13 +75,14 @@ void ACommandDrivenController::Tick(float DeltaSeconds)
 
 	if (Command)
 	{
-		float distSqr = FVector::DistSquared(GetPawn()->GetActorLocation(), Command->GetTargetLocation());
+		float distSqr = FVector::DistSquared(GetDehrgadaTWUCharacter()->GetFeetLocation(), Command->GetTargetLocation());
 		if (distSqr < Command->GetProximitySqr())
 		{
 			StopMovement();
 			//Command = NULL;
-			Command->Perform();
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Performing!"));
 			bPerformingCommand = true;
+			Command->Perform();
 		}
 	}
 }
@@ -96,6 +100,6 @@ void ACommandDrivenController::CompleteCommand()
 	bLockCommand = false;
 
 	Command = NULL;
+
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Command Completed!"));
 }
-
-

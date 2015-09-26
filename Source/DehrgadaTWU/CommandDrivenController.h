@@ -4,6 +4,7 @@
 
 #include "AIController.h"
 #include "FCommand.h"
+#include "FCommandAttack.h"
 #include "CommandDrivenController.generated.h"
 
 /**
@@ -18,7 +19,11 @@ protected:
 
 	void LoadCommand();
 
+	
+
 public:
+	UFUNCTION(BlueprintPure, Category = "Command")
+		bool HasCommand() const { return (Command != nullptr); }
 
 	class ADehrgadaTWUCharacter* GetDehrgadaTWUCharacter() { return (ADehrgadaTWUCharacter*)GetCharacter(); }
 
@@ -45,4 +50,13 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Command")
 		void CompleteCommand();
+
+	UFUNCTION(BlueprintCallable, Category = "Command")
+		void Command_MoveTo(FVector location) { ReceiveCommand(new FCommand(location)); }
+
+	UFUNCTION(BlueprintCallable, Category = "Command")
+		void Command_Approach(TScriptInterface<ITargetableInterface> target) { ReceiveCommand(new FCommand(target)); }
+
+	UFUNCTION(BlueprintCallable, Category = "Command")
+		void Command_Attack(TScriptInterface<ITargetableInterface> target) { ReceiveCommand(new FCommandAttack(target)); }
 };

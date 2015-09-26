@@ -13,8 +13,9 @@ FCommand::FCommand(FVector location)
 {
 	TargetLocation = location;
 	Target = TScriptInterface<ITargetableInterface>();
-	Proximity = 10;
+	Proximity = 50;
 	Name = FText::FromString("Move");
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, location.ToString());
 }
 
 FCommand::FCommand(ITargetable target)
@@ -31,10 +32,11 @@ FCommand::~FCommand()
 void FCommand::Perform()
 {
 	//do nothing.
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Perform!"));
 	Performer->CompleteCommand();
 }
 
 void FCommand::Resolve()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("resolution!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("resolution!"));
 }
