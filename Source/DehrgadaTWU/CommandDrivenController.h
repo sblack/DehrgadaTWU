@@ -3,6 +3,7 @@
 #pragma once
 
 #include "AIController.h"
+#include "InitiativeObjectInterface.h"
 #include "FCommand.h"
 #include "FCommandAttack.h"
 #include "CommandDrivenController.generated.h"
@@ -11,7 +12,7 @@
  * 
  */
 UCLASS()
-class DEHRGADATWU_API ACommandDrivenController : public AAIController
+class DEHRGADATWU_API ACommandDrivenController : public AAIController, public IInitiativeObjectInterface
 {
 	GENERATED_BODY()
 protected:
@@ -19,7 +20,7 @@ protected:
 
 	void LoadCommand();
 
-	
+	float Initiative;
 
 public:
 	UFUNCTION(BlueprintPure, Category = "Command")
@@ -39,6 +40,15 @@ public:
 
 	void Tick(float DeltaSeconds) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+		float RecalculateInitiative() override;
+
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+		float GetInitiative() const override { return Initiative; }
+
+	//UFUNCTION(BlueprintCallable, Category = "Combat")
+	//	void StartTurn() override;
+
 	UPROPERTY(BlueprintReadWrite, Category = "Command")
 		bool bPerformingCommand;
 
@@ -50,6 +60,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Command")
 		void CompleteCommand();
+
+	UFUNCTION(BlueprintCallable, Category = "Command")
+		void CancelCommand();
 
 	UFUNCTION(BlueprintCallable, Category = "Command")
 		void Command_MoveTo(FVector location) { ReceiveCommand(new FCommand(location)); }

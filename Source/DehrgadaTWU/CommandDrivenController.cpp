@@ -2,13 +2,28 @@
 
 #include "DehrgadaTWU.h"
 #include "DehrgadaTWUCharacter.h"
+#include "SheetStats.h"
 #include "CommandDrivenController.h"
+
+float ACommandDrivenController::RecalculateInitiative()
+{
+	Initiative = GetDehrgadaTWUCharacter()->Stats->AttributesTotal[(int)EAttributes::Dexterity] + FMath::FRandRange(0, 20);
+	return Initiative;
+}
 
 void ACommandDrivenController::ReceiveCommand(FCommand* command)
 {
+	if (bLockCommand)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Command Lock. New Command Ignored."));
+		UE_LOG(LogTemp, Log, TEXT("Ignore %s %d"), *command->Name.ToString(), command->GetID());
+		return;
+	}
+	CancelCommand();
 	Command = command;
 
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Command Received!"));
+	UE_LOG(LogTemp, Log, TEXT("Receive %s %d"), *Command->Name.ToString(), Command->GetID());
 
 	LoadCommand();
 }
@@ -90,6 +105,7 @@ void ACommandDrivenController::Tick(float DeltaSeconds)
 void ACommandDrivenController::ResolveCommand()
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Vive la resolution!"));
+	UE_LOG(LogTemp, Log, TEXT("Resolve %s %d"), *Command->Name.ToString(), Command->GetID());
 	Command->Resolve();
 	bLockCommand = true;
 }
@@ -99,7 +115,20 @@ void ACommandDrivenController::CompleteCommand()
 	bPerformingCommand = false;
 	bLockCommand = false;
 
+	UE_LOG(LogTemp, Log, TEXT("Complete %s %d"), *Command->Name.ToString(), Command->GetID());
 	Command = NULL;
 
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Command Completed!"));
+}
+
+void ACommandDrivenController::CancelCommand()
+{
+	bPerformingCommand = false;
+	GetDehrgadaTWUCharacter()->bCancel = true;
+	StopMovement();
+	if (Command != nullptr)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Cancel %s %d"), *Command->Name.ToString(), Command->GetID());
+		Command = NULL;
+	}
 }

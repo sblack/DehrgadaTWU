@@ -4,9 +4,12 @@
 #include "CommandDrivenController.h"
 #include "FCommand.h"
 
+int FCommand::Count = 0;
+
 FCommand::FCommand()
 {
 	Name = FText::FromString("Umm...");
+	ID = Count++;
 }
 
 FCommand::FCommand(FVector location)
@@ -15,6 +18,7 @@ FCommand::FCommand(FVector location)
 	Target = TScriptInterface<ITargetableInterface>();
 	Proximity = 50;
 	Name = FText::FromString("Move");
+	ID = Count++;
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, location.ToString());
 }
 
@@ -23,6 +27,7 @@ FCommand::FCommand(ITargetable target)
 	Target = target;
 	Proximity = 150;
 	Name = FText::FromString("Approach");
+	ID = Count++;
 }
 
 FCommand::~FCommand()

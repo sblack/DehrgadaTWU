@@ -11,6 +11,9 @@ struct DEHRGADATWU_API FCommand
 {
 	GENERATED_USTRUCT_BODY()
 protected:
+	static int Count;
+
+	int ID;
 	
 	/** distance at which Performer should stop moving and act */
 	float Proximity;
@@ -18,6 +21,8 @@ public:
 	class ACommandDrivenController* Performer;
 
 	FText Name;
+
+	int GetID() const { return ID; }
 
 	UPROPERTY(BlueprintReadOnly)
 	FVector TargetLocation;
