@@ -5,9 +5,9 @@
 
 URollCalculatorCPP* URollCalculatorCPP::Instance;
 
-void URollCalculatorCPP::SetInstance(URollCalculatorCPP* instance)
+void URollCalculatorCPP::SetInstance()
 {
-	Instance = instance;
+	Instance = this;
 }
 
 

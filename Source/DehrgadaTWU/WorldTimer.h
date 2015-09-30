@@ -21,7 +21,7 @@ public:
 
 	//Blueprint wants nothing to do with your useful static members, so we have to bypass it
 	UFUNCTION(BlueprintCallable, Category = "Static")
-		void SetInstance(AWorldTimer* instance);
+		void SetInstance();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

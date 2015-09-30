@@ -28,6 +28,11 @@ USheetStats::USheetStats()
 		VitalsCurrent.Add(1);
 	}
 
+	AP = 4;
+	APTotal = 4;
+	APBuff = 0;
+	APCurrent = 0;
+
 	//No resistance/weakness against Typeless
 	for (int i = 0; i < StatEnums::Damage()->GetMaxEnumValue() - 1; i++)
 	{
@@ -98,7 +103,8 @@ void USheetStats::UpdateVitals()
 	VitalsTotal[(int)EVitals::Health] = Vitals[(int)EVitals::Health] + VitalsBuff[(int)EVitals::Health] + AttributesTotal[(int)EAttributes::Strength] + 5 * AttributesTotal[(int)EAttributes::Vitality];
 	VitalsTotal[(int)EVitals::Clarity] = Vitals[(int)EVitals::Clarity] + VitalsBuff[(int)EVitals::Clarity] + 2 * AttributesTotal[(int)EAttributes::Intellect] + 4 * AttributesTotal[(int)EAttributes::Focus];
 	VitalsTotal[(int)EVitals::Stamina] = Vitals[(int)EVitals::Stamina] + VitalsBuff[(int)EVitals::Stamina] + 3 * AttributesTotal[(int)EAttributes::Dexterity] + 3 * AttributesTotal[(int)EAttributes::Vitality];
-	
+	APTotal = AP + APBuff + .15f * (float)(AttributesTotal[(int)EAttributes::Dexterity]) + .075f * (float)(AttributesTotal[(int)EAttributes::Focus]);
+
 	CheckVitals();
 }
 
@@ -116,4 +122,11 @@ void USheetStats::UpdateDefenses()
 	DefensesTotal[(int)EDefenses::Deflection] = Defenses[(int)EDefenses::Deflection] + DefensesBuff[(int)EDefenses::Deflection] + DefensesTotal[(int)EDefenses::Reflex];
 	DefensesTotal[(int)EDefenses::Fortitude] = Defenses[(int)EDefenses::Fortitude] + DefensesBuff[(int)EDefenses::Fortitude] + .5f * AttributesTotal[(int)EAttributes::Vitality];
 	DefensesTotal[(int)EDefenses::Psyche] = Defenses[(int)EDefenses::Psyche] + DefensesBuff[(int)EDefenses::Psyche] + .5f * AttributesTotal[(int)EAttributes::Focus];
+}
+
+void USheetStats::UpdateAPForNewTurn()
+{
+	APCurrent += APTotal;
+	if (APCurrent > APTotal * 1.5f)
+		APCurrent = APTotal * 1.5f;
 }

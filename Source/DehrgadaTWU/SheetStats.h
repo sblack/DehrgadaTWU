@@ -47,6 +47,17 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		TArray<int32> VitalsCurrent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float AP;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		float APTotal;
+
+	float APBuff;
+
+	UPROPERTY(BlueprintReadWrite)
+		float APCurrent;
+
 	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<float> Resists;
 
@@ -69,6 +80,8 @@ public:
 	void UpdateVitals();
 	void UpdateResists();
 	void UpdateDefenses();
+
+	void UpdateAPForNewTurn();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Vitals")
 		void ApplyDamage(UDamageData* damage, float mult, int32 add);

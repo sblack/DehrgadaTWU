@@ -3,6 +3,7 @@
 #include "DehrgadaTWU.h"
 #include "DehrgadaTWUCharacter.h"
 #include "SheetStats.h"
+#include "CombatManagerCPP.h"
 #include "CommandDrivenController.h"
 
 float ACommandDrivenController::RecalculateInitiative()
@@ -11,8 +12,47 @@ float ACommandDrivenController::RecalculateInitiative()
 	return Initiative;
 }
 
+void ACommandDrivenController::SetIsMyTurn(bool isMyTurn)
+{
+	if (bIsMyTurn == isMyTurn)
+	{
+		return;
+	}
+	if (isMyTurn)
+	{
+
+	}
+	else
+	{
+		if (!bPerformingCommand)
+		{
+			CancelCommand();
+		}
+	}
+	bIsMyTurn = isMyTurn;
+}
+
+void ACommandDrivenController::StartTurn()
+{
+	bIsMyTurn = true;
+	OldLocation = GetPawn()->GetActorLocation();
+	GetDehrgadaTWUCharacter()->Stats->UpdateAPForNewTurn();
+}
+
+void ACommandDrivenController::EndTurn()
+{
+	bIsMyTurn = false;
+	CancelCommand();
+	ACombatManagerCPP::Instance->AdvanceInitiative();
+}
+
 void ACommandDrivenController::ReceiveCommand(FCommand* command)
 {
+	if (!bIsMyTurn)
+	{
+		return;
+	}
+
 	if (bLockCommand)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Command Lock. New Command Ignored."));
@@ -98,6 +138,17 @@ void ACommandDrivenController::Tick(float DeltaSeconds)
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Performing!"));
 			bPerformingCommand = true;
 			Command->Perform();
+		}
+
+		if (ACombatManagerCPP::Instance->bIsTurnBased && bIsMyTurn)
+		{
+			float traveled = (GetPawn()->GetActorLocation() - OldLocation).Size();
+			GetDehrgadaTWUCharacter()->Stats->APCurrent -= (traveled / 100.f);
+			OldLocation = GetPawn()->GetActorLocation();
+			if (GetDehrgadaTWUCharacter()->Stats->APCurrent <= 0)
+			{
+				EndTurn();
+			}
 		}
 	}
 }

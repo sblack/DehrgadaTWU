@@ -22,6 +22,8 @@ protected:
 
 	float Initiative;
 
+	FVector OldLocation;
+
 public:
 	UFUNCTION(BlueprintPure, Category = "Command")
 		bool HasCommand() const { return (Command != nullptr); }
@@ -46,8 +48,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 		float GetInitiative() const override { return Initiative; }
 
-	//UFUNCTION(BlueprintCallable, Category = "Combat")
-	//	void StartTurn() override;
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+		void StartTurn() override;
+
+	void EndTurn();
+
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+		virtual void SetIsMyTurn(bool isMyTurn) override;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Command")
 		bool bPerformingCommand;

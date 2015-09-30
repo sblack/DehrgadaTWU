@@ -5,9 +5,9 @@
 
 ATalentManagerCPP* ATalentManagerCPP::Instance;
 
-void ATalentManagerCPP::SetInstance(ATalentManagerCPP* instance)
+void ATalentManagerCPP::SetInstance()
 {
-	Instance = instance;
+	Instance = this;
 }
 
 

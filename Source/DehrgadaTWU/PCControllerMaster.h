@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <vector>
 #include "GameFramework/PlayerController.h"
 #include "FCommand.h"
 #include "PCControllerMaster.generated.h"
@@ -15,9 +14,13 @@ class DEHRGADATWU_API APCControllerMaster : public APlayerController
 {
 	GENERATED_BODY()
 public:
+	static APCControllerMaster* Instance;
+
 	APCControllerMaster();
 
 	void ReceiveCommandFromGUI(FCommand* command);
+
+	void SwitchToSlave(int slaveIndex);
 
 protected:
 
@@ -25,7 +28,6 @@ protected:
 	virtual void SetupInputComponent() override;
 
 	void AttachCamera();
-	void ReleaseCamera();
 
 	void OnLeftClickDown();
 	void OnLeftClickUp();
@@ -50,7 +52,7 @@ protected:
 
 	class ACameraPawn* CameraPawn;
 
-	std::vector<class APCControllerSlave*> Slaves;
+	TArray<class APCControllerSlave*> Slaves;
 
 	int CurrentSlave = 0;
 

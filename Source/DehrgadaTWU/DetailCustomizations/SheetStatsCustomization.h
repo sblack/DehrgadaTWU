@@ -18,5 +18,6 @@ public:
 
 private:
 	void StatDetails(IDetailLayoutBuilder& DetailBuilder, FString StatName, UEnum* EnumPtr);
+	void VitalDetails(IDetailLayoutBuilder& DetailBuilder);
 	void UpdateButton(IDetailLayoutBuilder& DetailBuilder);
 };

@@ -6,18 +6,19 @@
 #include "FCommand.h"
 #include "FCommandAttack.h"
 #include "CommandMenuCPP.h"
-#include <vector>
-#include "Engine.h"
+#include "CombatManagerCPP.h"
+//#include "Engine.h"
 #include "EngineUtils.h"
 #include "PCControllerMaster.h"
+
+APCControllerMaster* APCControllerMaster::Instance;
 
 APCControllerMaster::APCControllerMaster()
 {
 	bShowMouseCursor = true;
 	bEnableMouseOverEvents = true;
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
-	CameraForward = FVector::ForwardVector;
-	CameraRight = FVector::RightVector;
+	Instance = this;
 }
 
 void APCControllerMaster::BeginPlay()
@@ -30,7 +31,7 @@ void APCControllerMaster::BeginPlay()
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APCControllerSlave::StaticClass(), temp);
 	for (int i = 0; i < temp.Num(); i++)
 	{
-		Slaves.insert(Slaves.end(), (APCControllerSlave*)(temp[i]));
+		Slaves.Add((APCControllerSlave*)(temp[i]));
 		((APCControllerSlave*)(temp[i]))->slaveIndex = i;
 	}
 
@@ -58,21 +59,8 @@ void APCControllerMaster::SetupInputComponent()
 
 void APCControllerMaster::AttachCamera()
 {
-	APCControllerSlave* slave = Slaves[CurrentSlave];
-	CameraPawn->AttachRootComponentToActor(slave->GetPawn(), NAME_None, EAttachLocation::SnapToTarget);
-	CameraPawn->SetActorRotation(CameraForward.Rotation() + FRotator(-60, 0, 0));
-	bFreeCamera = false;
+	CameraPawn->AttachCamera(ActiveCharacter());
 	OnActiveCharacterChanged();
-}
-
-void APCControllerMaster::ReleaseCamera()
-{
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Release!"));
-	CameraPawn->DetachRootComponentFromParent();
-	CameraPawn->DetachRootComponentFromParent();
-	CameraPawn->DetachRootComponentFromParent();
-
-	CameraPawn->DetachRootComponentFromParent();
 }
 
 void APCControllerMaster::OnLeftClickDown()
@@ -95,9 +83,12 @@ void APCControllerMaster::OnLeftClickUp()
 	{
 		if (Hit.Actor->ActorHasTag(FName("Party")))
 		{
-			AController* temp = ((APawn*)(Hit.GetActor()))->GetController();
-			CurrentSlave = ((APCControllerSlave*)temp)->slaveIndex;
-			AttachCamera();
+			if (!UCombatManagerBFL::GetIsTurnBasedCombat())
+			{
+				AController* temp = ((APawn*)(Hit.GetActor()))->GetController();
+				CurrentSlave = ((APCControllerSlave*)temp)->slaveIndex;
+				AttachCamera();
+			}
 		}
 		else if (Hit.Actor->ActorHasTag(FName("Enemy")))
 		{
@@ -138,50 +129,27 @@ void APCControllerMaster::OnRightClickUp()
 
 void APCControllerMaster::ZoomIn()
 {
-	float armLength = CameraPawn->GetCameraBoom()->TargetArmLength - 25.0f;
-	if (armLength < 500.0f)
-		armLength = 500.0f;
-	CameraPawn->GetCameraBoom()->TargetArmLength = armLength;
+	CameraPawn->ZoomIn();
 }
 
 void APCControllerMaster::ZoomOut()
 {
-	float armLength = CameraPawn->GetCameraBoom()->TargetArmLength + 25.0f;
-	if (armLength > 1500.0f)
-		armLength = 1500.0f;
-	CameraPawn->GetCameraBoom()->TargetArmLength = armLength;
+	CameraPawn->ZoomOut();
 }
 
 void APCControllerMaster::MoveForward(float value)
 {
-	if (value == 0) return;
-	if (!bFreeCamera)
-	{
-		ReleaseCamera();
-		bFreeCamera = true;
-	}
-	FVector vec = CameraForward * value;
-	CameraPawn->SetActorLocation(CameraPawn->GetActorLocation() + vec);
+	CameraPawn->MoveForward(value);
 }
 
 void APCControllerMaster::MoveRight(float value)
 {
-	if (value == 0) return;
-	if (!bFreeCamera)
-	{
-		ReleaseCamera();
-		bFreeCamera = true;
-	}
-	FVector vec = CameraRight * value;
-	CameraPawn->SetActorLocation(CameraPawn->GetActorLocation() + vec);
+	CameraPawn->MoveRight(value);
 }
 
 void APCControllerMaster::RotateCamera(float value)
 {
-	if (value == 0) return;
-	CameraForward = CameraForward.RotateAngleAxis(value, FVector::UpVector);
-	CameraRight = CameraRight.RotateAngleAxis(value, FVector::UpVector);
-	CameraPawn->SetActorRotation(CameraForward.Rotation() + FRotator(-60, 0, 0));
+	CameraPawn->RotateCamera(value);
 }
 
 void APCControllerMaster::ReceiveCommandFromGUI(FCommand* command)
@@ -192,4 +160,13 @@ void APCControllerMaster::ReceiveCommandFromGUI(FCommand* command)
 ADehrgadaTWUCharacter* APCControllerMaster::ActiveCharacter()
 {
 	return Slaves[CurrentSlave]->GetDehrgadaTWUCharacter();
+}
+
+void APCControllerMaster::SwitchToSlave(int slaveIndex)
+{
+	if (Slaves.IsValidIndex(slaveIndex))
+	{
+		CurrentSlave = slaveIndex;
+		OnActiveCharacterChanged();
+	}
 }

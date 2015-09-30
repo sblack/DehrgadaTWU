@@ -14,9 +14,9 @@ AWorldTimer::AWorldTimer()
 
 }
 
-void AWorldTimer::SetInstance(AWorldTimer* instance)
+void AWorldTimer::SetInstance()
 {
-	Instance = instance;
+	Instance = this;
 }
 
 // Called when the game starts or when spawned

@@ -19,7 +19,7 @@ public:
 	
 	//Blueprint wants nothing to do with your useful static members, so we have to bypass it
 	UFUNCTION(BlueprintCallable, Category = "Static")
-		void SetInstance(URollCalculatorCPP* instance);
+		void SetInstance();
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Roll")
 		void Attack_NoUser(const TScriptInterface<ITargetableInterface>& target, float modifier, EDefenses defense, bool& result);
