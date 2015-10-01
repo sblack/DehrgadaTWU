@@ -30,6 +30,9 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 		TScriptInterface<ITargetableInterface> Target;
 
+	UPROPERTY(BlueprintReadOnly)
+		float BaseAP;
+
 	ITargetable GetTarget() const { return Target; }
 
 	FVector	GetTargetLocation() const
@@ -47,6 +50,8 @@ public:
 	FCommand(ITargetable target);
 
 	~FCommand();
+
+	virtual bool CanUse(class ADehrgadaTWUCharacter* user);
 
 	virtual void Perform();
 

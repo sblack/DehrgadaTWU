@@ -2,6 +2,7 @@
 
 #include "DehrgadaTWU.h"
 #include "DehrgadaTWUCharacter.h"
+#include "SheetStats.h"
 #include "PCControllerSlave.h"
 #include "TalentManagerCPP.h"
 #include "FCommandTalentActive.h"
@@ -16,6 +17,7 @@ FCommandTalentActive::FCommandTalentActive(UTalentActive* talent) : FCommand()
 	Name = talent->Name;
 	Talent = talent;
 	Proximity = talent->Range;
+	BaseAP = talent->APCost;
 }
 
 FCommandTalentActive::FCommandTalentActive(UTalentActive* talent, ITargetable target) : FCommand(target)
@@ -24,6 +26,7 @@ FCommandTalentActive::FCommandTalentActive(UTalentActive* talent, ITargetable ta
 	Talent = talent;
 	Proximity = talent->Range;
 	if (Proximity < 150) Proximity = 150;
+	BaseAP = talent->APCost;
 }
 
 FCommandTalentActive::FCommandTalentActive(UTalentActive* talent, FVector location) : FCommand(location)
@@ -32,10 +35,22 @@ FCommandTalentActive::FCommandTalentActive(UTalentActive* talent, FVector locati
 	Talent = talent;
 	Proximity = talent->Range;
 	if (Proximity < 10) Proximity = 10;
+	BaseAP = talent->APCost;
 }
 
 FCommandTalentActive::~FCommandTalentActive()
 {
+}
+
+bool FCommandTalentActive::CanUse(ADehrgadaTWUCharacter* user)
+{
+	for (int i = 0; i < StatEnums::Vitals()->GetMaxEnumValue(); i++)
+	{
+		if (user->Stats->VitalsCurrent[i] < Talent->VitalCost((EVitals)i))
+			return false;
+	}
+
+	return FCommand::CanUse(user);
 }
 
 void FCommandTalentActive::Perform()
@@ -55,4 +70,6 @@ void FCommandTalentActive::Resolve()
 		ATalentManagerCPP::Instance->Use_Location(Talent, Performer->GetDehrgadaTWUCharacter(), GetTargetLocation());
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Location!"));
 	}
+
+	Performer->GetDehrgadaTWUCharacter()->Stats->SpendVitals(Talent);
 }

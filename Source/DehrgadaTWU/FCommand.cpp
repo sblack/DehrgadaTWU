@@ -2,6 +2,9 @@
 
 #include "DehrgadaTWU.h"
 #include "CommandDrivenController.h"
+#include "DehrgadaTWUCharacter.h"
+#include "SheetStats.h"
+#include "CombatManagerCPP.h"
 #include "FCommand.h"
 
 int FCommand::Count = 0;
@@ -10,6 +13,7 @@ FCommand::FCommand()
 {
 	Name = FText::FromString("Umm...");
 	ID = Count++;
+	BaseAP = 0;
 }
 
 FCommand::FCommand(FVector location)
@@ -20,6 +24,7 @@ FCommand::FCommand(FVector location)
 	Name = FText::FromString("Move");
 	ID = Count++;
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, location.ToString());
+	BaseAP = 0;
 }
 
 FCommand::FCommand(ITargetable target)
@@ -28,10 +33,24 @@ FCommand::FCommand(ITargetable target)
 	Proximity = 150;
 	Name = FText::FromString("Approach");
 	ID = Count++;
+	BaseAP = 0;
 }
 
 FCommand::~FCommand()
 {
+}
+
+bool FCommand::CanUse(ADehrgadaTWUCharacter* user)
+{
+	if (UCombatManagerBFL::GetIsTurnBasedCombat())
+	{
+		if (user->Stats->APCurrent < BaseAP)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void FCommand::Perform()

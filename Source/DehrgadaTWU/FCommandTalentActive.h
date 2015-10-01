@@ -23,6 +23,8 @@ public:
 	FCommandTalentActive(UTalentActive* talent, FVector location);
 	~FCommandTalentActive();
 
+	virtual bool CanUse(class ADehrgadaTWUCharacter* user) override;
+
 	virtual void Perform() override;
 
 	virtual void Resolve() override;

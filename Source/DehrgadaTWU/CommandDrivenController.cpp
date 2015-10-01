@@ -59,6 +59,13 @@ void ACommandDrivenController::ReceiveCommand(FCommand* command)
 		UE_LOG(LogTemp, Log, TEXT("Ignore %s %d"), *command->Name.ToString(), command->GetID());
 		return;
 	}
+
+	if (!command->CanUse(GetDehrgadaTWUCharacter()))
+	{
+		UE_LOG(LogTemp, Log, TEXT("Can't use %s %d (RC)"), *command->Name.ToString(), command->GetID());
+		return;
+	}
+
 	CancelCommand();
 	Command = command;
 
@@ -131,13 +138,21 @@ void ACommandDrivenController::Tick(float DeltaSeconds)
 	if (Command)
 	{
 		float distSqr = FVector::DistSquared(GetDehrgadaTWUCharacter()->GetFeetLocation(), Command->GetTargetLocation());
-		if (distSqr < Command->GetProximitySqr())
+		if (distSqr < Command->GetProximitySqr() && !bPerformingCommand)
 		{
 			StopMovement();
 			//Command = NULL;
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Performing!"));
-			bPerformingCommand = true;
-			Command->Perform();
+			if (Command->CanUse(GetDehrgadaTWUCharacter()))
+			{
+				bPerformingCommand = true;
+				Command->Perform();
+			}
+			else
+			{
+				UE_LOG(LogTemp, Log, TEXT("Can't use %s %d (T)"), *Command->Name.ToString(), Command->GetID());
+				CancelCommand();
+			}
 		}
 
 		if (ACombatManagerCPP::Instance->bIsTurnBased && bIsMyTurn)
@@ -147,6 +162,7 @@ void ACommandDrivenController::Tick(float DeltaSeconds)
 			OldLocation = GetPawn()->GetActorLocation();
 			if (GetDehrgadaTWUCharacter()->Stats->APCurrent <= 0)
 			{
+				UE_LOG(LogTemp, Log, TEXT("No AP Left"));
 				EndTurn();
 			}
 		}
@@ -159,6 +175,10 @@ void ACommandDrivenController::ResolveCommand()
 	UE_LOG(LogTemp, Log, TEXT("Resolve %s %d"), *Command->Name.ToString(), Command->GetID());
 	Command->Resolve();
 	bLockCommand = true;
+	if (UCombatManagerBFL::GetIsTurnBasedCombat())
+	{
+		GetDehrgadaTWUCharacter()->Stats->APCurrent -= Command->BaseAP;
+	}
 }
 
 void ACommandDrivenController::CompleteCommand()

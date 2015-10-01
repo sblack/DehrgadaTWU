@@ -20,6 +20,8 @@ public:
 
 	void ReceiveCommandFromGUI(FCommand* command);
 
+	void EndTurn();
+
 	void SwitchToSlave(int slaveIndex);
 
 protected:

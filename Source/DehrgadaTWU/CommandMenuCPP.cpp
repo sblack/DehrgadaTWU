@@ -1,27 +1,27 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "DehrgadaTWU.h"
-#include <vector>
 #include "FCommand.h"
 #include "FCommandAttack.h"
 #include "FCommandTalentActive.h"
 #include "PCControllerMaster.h"
 #include "DehrgadaTWUCharacter.h"
 #include "SheetTalents.h"
+#include "CombatManagerCPP.h"
 #include "CommandMenuCPP.h"
 
 void UCommandMenuCPP::Prepare(FVector location)
 {
 	//UE_LOG(LogTemp, Log, TEXT("%d commands"), Commands.size());
-	Commands.clear();
-	Commands.insert(Commands.end(), new FCommand(location));
+	Commands.Empty();
+	Commands.Add(new FCommand(location));
 	if (ActiveCharacter == nullptr)
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("ActiveCharacter Missing"));
 	else
 	{
 		for (int i = 0; i < ActiveCharacter->Talents->ActiveTalents.Num(); i++)
 		{
-			Commands.insert(Commands.end(), new FCommandTalentActive(ActiveCharacter->Talents->ActiveTalents[i], location));
+			Commands.Add(new FCommandTalentActive(ActiveCharacter->Talents->ActiveTalents[i], location));
 		}
 	}
 	
@@ -30,16 +30,16 @@ void UCommandMenuCPP::Prepare(FVector location)
 
 void UCommandMenuCPP::Prepare(ITargetable target)
 {
-	Commands.clear();
-	Commands.insert(Commands.end(), new FCommand(target));
-	Commands.insert(Commands.end(), new FCommandAttack(target));
+	Commands.Empty();
+	Commands.Add(new FCommand(target));
+	Commands.Add(new FCommandAttack(target));
 	if (ActiveCharacter == nullptr)
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("ActiveCharacter Missing"));
 	else
 	{
 		for (int i = 0; i < ActiveCharacter->Talents->ActiveTalents.Num(); i++)
 		{
-			Commands.insert(Commands.end(), new FCommandTalentActive(ActiveCharacter->Talents->ActiveTalents[i], target));
+			Commands.Add(new FCommandTalentActive(ActiveCharacter->Talents->ActiveTalents[i], target));
 		}
 	}
 	SetupMenu();
@@ -49,13 +49,17 @@ void UCommandMenuCPP::SetupMenu()
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("SetupMenu"));
 
-	for (int i = 0; i < Commands.size(); i++)
+	for (int i = 0; i < Commands.Num(); i++)
 	{
 		AddButton(Commands[i]->Name, i);
 	}
-	AddButton(FText::FromString("Cancel"), Commands.size());
+	AddButton(FText::FromString("Cancel"), Commands.Num());
+	if (UCombatManagerBFL::GetIsTurnBasedCombat())
+	{
+		AddButton(FText::FromString("End Turn"), -1);
+	}
 
-	Reposition(Commands.size());
+	Reposition(Commands.Num());
 }
 
 void UCommandMenuCPP::Select(int32 index)
@@ -64,6 +68,12 @@ void UCommandMenuCPP::Select(int32 index)
 
 	Close();
 
-	if (index < Commands.size())
-		((APCControllerMaster*)(GetWorld()->GetFirstPlayerController()))->ReceiveCommandFromGUI(Commands[index]);
+	if (index == -1)
+	{
+		APCControllerMaster::Instance->EndTurn();
+		return;
+	}
+
+	if (index < Commands.Num())
+		APCControllerMaster::Instance->ReceiveCommandFromGUI(Commands[index]);
 }

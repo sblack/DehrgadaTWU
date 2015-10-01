@@ -24,6 +24,22 @@ class DEHRGADATWU_API UTalentActive : public UTalent
 {
 	GENERATED_BODY()
 public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ClampMin = 0))
+		int32 HealthCost;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ClampMin = 0))
+		int32 ClarityCost;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ClampMin = 0))
+		int32 StaminaCost;
+
+	UFUNCTION(BlueprintPure, Category = "Talents")
+		int32 VitalCost(EVitals vital);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ClampMin = 0))
+		float APCost;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		bool bCanTargetActor;
 

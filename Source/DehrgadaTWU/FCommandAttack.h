@@ -17,6 +17,8 @@ public:
 	FCommandAttack(ITargetable target);
 	~FCommandAttack();
 
+	virtual bool CanUse(class ADehrgadaTWUCharacter* user) override;
+
 	virtual void Perform() override;
 
 	virtual void Resolve() override;

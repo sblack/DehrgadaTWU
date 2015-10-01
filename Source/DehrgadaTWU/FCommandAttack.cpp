@@ -11,15 +11,22 @@
 FCommandAttack::FCommandAttack() : FCommand()
 {
 	Name = FText::FromString("Attack");
+	BaseAP = 4;
 }
 
 FCommandAttack::FCommandAttack(ITargetable target) : FCommand(target)
 {
 	Name = FText::FromString("Attack");
+	BaseAP = 4;
 }
 
 FCommandAttack::~FCommandAttack()
 {
+}
+
+bool FCommandAttack::CanUse(ADehrgadaTWUCharacter* user)
+{
+	return FCommand::CanUse(user);
 }
 
 void FCommandAttack::Perform()

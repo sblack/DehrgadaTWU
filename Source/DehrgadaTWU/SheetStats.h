@@ -91,4 +91,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Vitals")
 		void CheckVitals();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Vitals")
+		void SpendVitals(const class UTalentActive* talent);
 };

@@ -7,7 +7,6 @@
 #include "FCommandAttack.h"
 #include "CommandMenuCPP.h"
 #include "CombatManagerCPP.h"
-//#include "Engine.h"
 #include "EngineUtils.h"
 #include "PCControllerMaster.h"
 
@@ -168,5 +167,13 @@ void APCControllerMaster::SwitchToSlave(int slaveIndex)
 	{
 		CurrentSlave = slaveIndex;
 		OnActiveCharacterChanged();
+	}
+}
+
+void APCControllerMaster::EndTurn()
+{
+	if (UCombatManagerBFL::GetIsTurnBasedCombat())
+	{
+		Slaves[CurrentSlave]->EndTurn();
 	}
 }

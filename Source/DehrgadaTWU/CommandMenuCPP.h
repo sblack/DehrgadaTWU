@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <vector>
 #include "FCommand.h"
 #include "Blueprint/UserWidget.h"
 #include "CommandMenuCPP.generated.h"
@@ -16,7 +15,7 @@ class DEHRGADATWU_API UCommandMenuCPP : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	std::vector<FCommand*> Commands;
+	TArray<FCommand*> Commands;
 	
 	void Prepare(FVector location);
 
