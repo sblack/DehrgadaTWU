@@ -28,6 +28,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Command")
 		bool HasCommand() const { return (Command != nullptr); }
 
+	UFUNCTION(BlueprintPure, Category = "Character")
 	class ADehrgadaTWUCharacter* GetDehrgadaTWUCharacter() { return (ADehrgadaTWUCharacter*)GetCharacter(); }
 
 	void ReceiveCommand(FCommand* command);
@@ -51,7 +52,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 		void StartTurn() override;
 
-	void EndTurn();
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+		void EndTurn();
 
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 		virtual void SetIsMyTurn(bool isMyTurn) override;

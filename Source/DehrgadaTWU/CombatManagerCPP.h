@@ -7,11 +7,23 @@
 #include "InitiativeObjectInterface.h"
 #include "CombatManagerCPP.generated.h"
 
+UENUM(BlueprintType)
+enum class ERTTBState : uint8
+{
+	RealTime,
+	PendingTB,
+	TurnBased,
+	PendingRT
+};
+
 UCLASS(Blueprintable, Abstract)
 class DEHRGADATWU_API ACombatManagerCPP : public AActor
 {
 	GENERATED_BODY()
-	
+protected:
+	UPROPERTY(BlueprintReadOnly)
+		int32 PendingTBCounter;
+
 public:	
 	static ACombatManagerCPP* Instance;
 	
@@ -28,13 +40,24 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		bool bInCombat;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		bool bIsTurnBased;
+	UPROPERTY(BlueprintReadWrite)
+		ERTTBState RTTBState;
 
-	UFUNCTION(BlueprintCallable, Category = "Combat")
-		void BeginTurnBased();
+	void SetInCombat(bool inCombat);
+
+	void ToggleRTTB();
+
+	void PrepareForTurnBased();
+
+	void BeginTurnBased();
+
+	void EndTurnBased();
 
 	void AdvanceInitiative();
+
+	void IncrementPendingTBCounter() { PendingTBCounter++; }
+
+	void DecrementPendingTBCounter();
 };
 
 /**
@@ -50,16 +73,18 @@ public:
 		static bool GetInCombat() { return ACombatManagerCPP::Instance->bInCombat; }
 
 	UFUNCTION(BlueprintCallable, Category = "Combat")
-		static void SetInCombat(bool inCombat) { ACombatManagerCPP::Instance->bInCombat = inCombat; }
+		static void SetInCombat(bool inCombat) { ACombatManagerCPP::Instance->SetInCombat(inCombat); }
 
 	//Reminder: gameplay only switches to TB in combat; it is RT out of combat, regardless of this value.
 	UFUNCTION(BlueprintPure, Category = "Combat")
-		static bool GetIsTurnBased() { return ACombatManagerCPP::Instance->bIsTurnBased; }
+		static bool GetIsTurnBased() { return ACombatManagerCPP::Instance->RTTBState == ERTTBState::TurnBased || ACombatManagerCPP::Instance->RTTBState == ERTTBState::PendingRT; }
 
-	//Reminder: gameplay only switches to TB in combat; it is RT out of combat, regardless of this value.
+	UFUNCTION(BlueprintPure, Category = "Combat")
+		static ERTTBState GetRTTBState() { return ACombatManagerCPP::Instance->RTTBState; }
+
 	UFUNCTION(BlueprintCallable, Category = "Combat")
-		static void SetIsTurnBased(bool isTurnBased) { ACombatManagerCPP::Instance->bIsTurnBased = isTurnBased; }
+		static void ToggleRTTB() { ACombatManagerCPP::Instance->ToggleRTTB(); }
 
 	UFUNCTION(BlueprintPure, Category = "Combat")
-		static bool GetIsTurnBasedCombat() { return ACombatManagerCPP::Instance->bIsTurnBased && ACombatManagerCPP::Instance->bInCombat; }
+		static bool GetIsTurnBasedCombat() { return GetIsTurnBased() && ACombatManagerCPP::Instance->bInCombat; }
 };

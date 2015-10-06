@@ -28,6 +28,10 @@ void ACommandDrivenController::SetIsMyTurn(bool isMyTurn)
 		{
 			CancelCommand();
 		}
+		else
+		{
+			ACombatManagerCPP::Instance->IncrementPendingTBCounter();
+		}
 	}
 	bIsMyTurn = isMyTurn;
 }
@@ -155,7 +159,7 @@ void ACommandDrivenController::Tick(float DeltaSeconds)
 			}
 		}
 
-		if (ACombatManagerCPP::Instance->bIsTurnBased && bIsMyTurn)
+		if (UCombatManagerBFL::GetIsTurnBasedCombat() && bIsMyTurn)
 		{
 			float traveled = (GetPawn()->GetActorLocation() - OldLocation).Size();
 			GetDehrgadaTWUCharacter()->Stats->APCurrent -= (traveled / 100.f);
@@ -188,6 +192,10 @@ void ACommandDrivenController::CompleteCommand()
 
 	UE_LOG(LogTemp, Log, TEXT("Complete %s %d"), *Command->Name.ToString(), Command->GetID());
 	Command = NULL;
+	if (UCombatManagerBFL::GetRTTBState() == ERTTBState::PendingTB)
+	{
+		ACombatManagerCPP::Instance->DecrementPendingTBCounter();
+	}
 
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Command Completed!"));
 }

@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "DehrgadaTWU.h"
+#include "CombatManagerCPP.h"
 #include "WorldTimer.h"
 
 const float AWorldTimer::TurnLength = 5.f;
@@ -11,7 +12,7 @@ AWorldTimer::AWorldTimer()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	bIsRunning = true;
 }
 
 void AWorldTimer::SetInstance()
@@ -29,6 +30,10 @@ void AWorldTimer::BeginPlay()
 // Called every frame
 void AWorldTimer::Tick( float DeltaTime )
 {
+	if (!bIsRunning)
+	{
+		return;
+	}
 	Super::Tick( DeltaTime );
 	Time += DeltaTime;
 }
