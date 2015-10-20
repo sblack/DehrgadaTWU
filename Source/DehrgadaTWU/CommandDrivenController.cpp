@@ -70,7 +70,7 @@ void ACommandDrivenController::ReceiveCommand(FCommand* command)
 		return;
 	}
 
-	CancelCommand();
+	CancelCommand(false); //most commands have a movement element to them, so stopping would result in the character "shuddering"
 	Command = command;
 
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Command Received!"));
@@ -200,14 +200,15 @@ void ACommandDrivenController::CompleteCommand()
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Command Completed!"));
 }
 
-void ACommandDrivenController::CancelCommand()
+void ACommandDrivenController::CancelCommand(bool stopMove)
 {
 	bPerformingCommand = false;
 	GetDehrgadaTWUCharacter()->bCancel = true;
-	StopMovement();
+	if (stopMove)
+		StopMovement();
 	if (Command != nullptr)
 	{
-		UE_LOG(LogTemp, Log, TEXT("Cancel %s %d"), *Command->Name.ToString(), Command->GetID());
+		//UE_LOG(LogTemp, Log, TEXT("Cancel %s %d"), *Command->Name.ToString(), Command->GetID());
 		Command = NULL;
 	}
 }

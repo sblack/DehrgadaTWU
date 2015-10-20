@@ -6,7 +6,7 @@
 
 void UDamageData::Damage(int32& result, float mult, int32 add)
 {
-	URollCalculatorCPP::Instance->RollDamage(MinDamage * mult + add, MaxDamage * mult + add, result);
+	ARollCalculatorCPP::Instance->RollDamage(MinDamage * mult + add, MaxDamage * mult + add, result);
 }
 
 UDamageData* UDamageData::NewDamage(EDamage damageType, EVitals targetVital, int32 minDamage, int32 maxDamage)

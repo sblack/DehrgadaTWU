@@ -3,9 +3,9 @@
 #include "DehrgadaTWU.h"
 #include "RollCalculatorCPP.h"
 
-URollCalculatorCPP* URollCalculatorCPP::Instance;
+ARollCalculatorCPP* ARollCalculatorCPP::Instance;
 
-void URollCalculatorCPP::SetInstance()
+void ARollCalculatorCPP::SetInstance()
 {
 	Instance = this;
 }

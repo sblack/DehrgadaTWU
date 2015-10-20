@@ -43,6 +43,12 @@ public:
 		void GetMeleeAttack(float& result) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Combat")
+		void GetRangedAttack(float& result) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Combat")
 		void GetMagicAttack(float& result) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Combat")
+		void GetFalloffModifier(float& result) const;
 };
 

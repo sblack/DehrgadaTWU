@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{C92A4737-DB87-4C88-B441-5BA6DE92D4DA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{BD3CEFE5-2E5D-460C-9541-CE8E461E17A7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{8E5241EA-7572-4128-84DD-700DB5087DDB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{01FBA179-837D-432A-B575-B0309F6F79DF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UE4", "Intermediate\ProjectFiles\UE4.vcxproj", "{DCB9DF36-A2C2-413D-B150-067CFCD754AC}"
 EndProject
@@ -40,8 +40,8 @@ Global
 		{DCB9DF36-A2C2-413D-B150-067CFCD754AC}.Shipping|Win32.ActiveCfg = BuiltWithUnrealBuildTool|Win32
 		{DCB9DF36-A2C2-413D-B150-067CFCD754AC}.Shipping|Win32.Build.0 = BuiltWithUnrealBuildTool|Win32
 		{DCB9DF36-A2C2-413D-B150-067CFCD754AC}.Shipping|Win64.ActiveCfg = BuiltWithUnrealBuildTool|Win32
-		{C7A536F0-EF4C-4715-898D-45AA0CEF5A85}.DebugGame Editor|Win32.ActiveCfg = Development_Editor|Win32
-		{C7A536F0-EF4C-4715-898D-45AA0CEF5A85}.DebugGame Editor|Win32.Build.0 = Development_Editor|Win32
+		{C7A536F0-EF4C-4715-898D-45AA0CEF5A85}.DebugGame Editor|Win32.ActiveCfg = DebugGame_Editor|Win32
+		{C7A536F0-EF4C-4715-898D-45AA0CEF5A85}.DebugGame Editor|Win32.Build.0 = DebugGame_Editor|Win32
 		{C7A536F0-EF4C-4715-898D-45AA0CEF5A85}.DebugGame Editor|Win64.ActiveCfg = DebugGame_Editor|x64
 		{C7A536F0-EF4C-4715-898D-45AA0CEF5A85}.DebugGame Editor|Win64.Build.0 = DebugGame_Editor|x64
 		{C7A536F0-EF4C-4715-898D-45AA0CEF5A85}.DebugGame|Win32.ActiveCfg = DebugGame_Game|Win32
@@ -65,7 +65,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{DCB9DF36-A2C2-413D-B150-067CFCD754AC} = {C92A4737-DB87-4C88-B441-5BA6DE92D4DA}
-		{C7A536F0-EF4C-4715-898D-45AA0CEF5A85} = {8E5241EA-7572-4128-84DD-700DB5087DDB}
+		{DCB9DF36-A2C2-413D-B150-067CFCD754AC} = {BD3CEFE5-2E5D-460C-9541-CE8E461E17A7}
+		{C7A536F0-EF4C-4715-898D-45AA0CEF5A85} = {01FBA179-837D-432A-B575-B0309F6F79DF}
 	EndGlobalSection
 EndGlobal

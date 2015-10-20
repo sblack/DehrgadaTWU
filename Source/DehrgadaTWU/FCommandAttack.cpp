@@ -38,7 +38,7 @@ void FCommandAttack::Resolve()
 {
 	UE_LOG(LogTemp, Log, TEXT("-----------"));
 	bool result = true;
-	URollCalculatorCPP::Instance->MeleeAttack(Target, Performer->GetDehrgadaTWUCharacter(), EDefenses::Deflection, result);
+	ARollCalculatorCPP::Instance->MeleeAttack(Target, Performer->GetDehrgadaTWUCharacter(), EDefenses::Deflection, result);
 	if (result)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Hit!");

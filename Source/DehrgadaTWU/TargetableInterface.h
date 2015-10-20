@@ -16,8 +16,11 @@ class DEHRGADATWU_API ITargetableInterface
 {
 	GENERATED_IINTERFACE_BODY()
 public:
-	AActor* AsActor() const { return Cast<AActor>(_getUObject()); }
-	FVector Location() const { return AsActor()->GetActorLocation(); }
+	UFUNCTION(BlueprintCallable, Category = "Target")
+		virtual AActor* AsActor() const { return Cast<AActor>(_getUObject()); }
+
+	UFUNCTION(BlueprintCallable, Category = "Target")
+		virtual FVector Location() const { return AsActor()->GetActorLocation(); }
 
 	virtual void ApplyDamage(class UDamageData* damage, float mult, int32 add) {}
 	virtual void ApplyHeal(class UHealData* heal) {}

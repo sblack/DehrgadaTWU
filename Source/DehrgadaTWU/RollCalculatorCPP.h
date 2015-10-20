@@ -10,12 +10,12 @@
  * 
  */
 UCLASS(Blueprintable, Abstract)
-class DEHRGADATWU_API URollCalculatorCPP : public UObject
+class DEHRGADATWU_API ARollCalculatorCPP : public AActor
 {
 	GENERATED_BODY()
 	
 public:
-	static URollCalculatorCPP* Instance;
+	static ARollCalculatorCPP* Instance;
 	
 	//Blueprint wants nothing to do with your useful static members, so we have to bypass it
 	UFUNCTION(BlueprintCallable, Category = "Static")
@@ -27,8 +27,8 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Roll")
 		void MeleeAttack(const TScriptInterface<ITargetableInterface>& target, class ADehrgadaTWUCharacter* user, EDefenses defense, bool& result);
 
-	//UFUNCTION(BlueprintImplementableEvent, Category = "Roll")
-	//	void RangedAttack(const TScriptInterface<ITargetableInterface>& target, class ADehrgadaTWUCharacter* user, EDefenses defense, bool& result);
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Roll")
+		void RangedAttack(const TScriptInterface<ITargetableInterface>& target, class ADehrgadaTWUCharacter* user, EDefenses defense, float rangeIncrement, float falloff, bool& result);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Roll")
 		void MagicAttack(const TScriptInterface<ITargetableInterface>& target, class ADehrgadaTWUCharacter* user, EDefenses defense, bool& result);

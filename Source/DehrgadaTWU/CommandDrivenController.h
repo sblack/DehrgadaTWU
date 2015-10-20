@@ -71,7 +71,7 @@ public:
 		void CompleteCommand();
 
 	UFUNCTION(BlueprintCallable, Category = "Command")
-		void CancelCommand();
+		void CancelCommand(bool stopMove = true);
 
 	UFUNCTION(BlueprintCallable, Category = "Command")
 		void Command_MoveTo(FVector location) { ReceiveCommand(new FCommand(location)); }
