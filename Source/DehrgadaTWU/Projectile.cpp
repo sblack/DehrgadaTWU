@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "DehrgadaTWU.h"
+#include "TalentActive.h"
+#include "TalentManagerCPP.h"
 #include "Projectile.h"
 
 // Sets default values
@@ -108,46 +110,33 @@ void AProjectile::SetTargetPoint(FVector point)
 
 void AProjectile::CalculateTrajectory()
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::SanitizeFloat(Speed));
 	FVector diff = TargetPoint - GetActorLocation();
 	float grav = -(GetWorld()->GetDefaultGravityZ()*Movement->ProjectileGravityScale);
-	//float timeToTarget;
 	if (grav != 0.f)
 	{
 		float tarXY = diff.Size2D();
 		float angXY = FMath::Atan2(diff.Y, diff.X);
 		float minSpeed = FMath::Sqrt((grav*tarXY*tarXY) / (tarXY - diff.Z));
-		//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Blue, FString::SanitizeFloat(minSpeed));
 		float angZ;
 		if (Speed < minSpeed)
 		{
 			Movement->InitialSpeed = minSpeed;
-			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Cyan, FString::SanitizeFloat(Movement->InitialSpeed));
 			angZ = PI / 4.f;
 		}
 		else
 		{
 			Movement->InitialSpeed = Speed;
-			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, FString::SanitizeFloat(Movement->InitialSpeed));
 			angZ = FMath::Atan((Speed*Speed - FMath::Sqrt(FMath::Pow(Speed, 4) - grav*(grav*tarXY*tarXY + 2 * diff.Z*Speed*Speed))) / (grav*tarXY));
 		}
 
 		Movement->Velocity = Movement->InitialSpeed * FVector(FMath::Cos(angZ)*FMath::Cos(angXY), FMath::Cos(angZ)*FMath::Sin(angXY), FMath::Sin(angZ));
 		Movement->Velocity.Y -= grav * GetWorld()->DeltaTimeSeconds / 2.f; //half a frame of acceleration for math reasons
-
-		//timeToTarget = tarXY / (Movement->InitialSpeed * FMath::Cos(angZ));
 	}
 	else
 	{
 		Movement->Velocity = diff;
 		Movement->InitialSpeed = Speed;
-		//timeToTarget = diff.Size() / Movement->InitialSpeed;
 	}
-
-	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, Movement->Velocity.ToString());
-	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, FString::SanitizeFloat(Movement->InitialSpeed));
-
-	//GetWorldTimerManager().SetTimer(TimerHandle_Impact, this, &AProjectile::ImpactTarget, timeToTarget, false);
 }
 
 void AProjectile::ImpactTarget()
@@ -155,13 +144,11 @@ void AProjectile::ImpactTarget()
 	if (Success > 0)
 	{
 		//DO DAMAGE
-		//AREA EFFECT
-		Destroy();
+		Terminate();
 	}
 	else if (bAirBurst)
 	{
-		//AREA EFFECT
-		Destroy();
+		Terminate();
 	}
 	else
 	{
@@ -176,6 +163,27 @@ void AProjectile::NotifyHit(class UPrimitiveComponent * MyComp, AActor * Other, 
 	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
 	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, TEXT("NotifyHit"));
 	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, Other->GetName());
-	//AREA EFFECT
+	Terminate();
+}
+
+void AProjectile::Terminate()
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, TEXT("Terminate"));
+
+	if (Talent != nullptr)
+	{
+		if (User != nullptr)
+		{
+			if (Talent->bCanTargetActor && Target && Success > 0)
+			{
+				ATalentManagerCPP::Instance->Use_Target(Talent, User, Target);
+			}
+			else if (Talent->bCanTargetLocation)
+			{
+				ATalentManagerCPP::Instance->Use_Location(Talent, User, GetActorLocation());
+			}
+		}
+	}
+
 	Destroy();
 }

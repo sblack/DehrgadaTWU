@@ -32,6 +32,9 @@ protected:
 	FTimerHandle TimerHandle_Impact;
 	FVector Offset;
 
+	class UTalentActive* Talent;
+	class ADehrgadaTWUCharacter* User;
+
 	void CalculateTrajectory();
 	void ImpactTarget();
 	
@@ -45,12 +48,20 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Projectile")
+		void SetUser(class ADehrgadaTWUCharacter* user) { User = user; }
+
 	//success: 0 = miss, 1 = hit, >1 = crit mult
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
 		void SetTarget(TScriptInterface<ITargetableInterface> target, float success);
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
 		void SetTargetPoint(FVector point);
 
+	UFUNCTION(BlueprintCallable, Category = "Projectile")
+		void SetTalent(class UTalentActive* talent) { Talent = talent; }
+
 	void NotifyHit(class UPrimitiveComponent * MyComp, AActor * Other, class UPrimitiveComponent * OtherComp, bool bSelfMoved,
 		FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult & Hit) override;
+
+	void Terminate();
 };

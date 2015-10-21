@@ -64,4 +64,24 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		class UParticleSystem* OnHitParticles;
+
+		virtual float GetProximity() { return Range; }
+};
+
+/**
+* Active Talent that uses a projectile. Range variable is treated as range increment.
+*/
+UCLASS()
+class DEHRGADATWU_API UTalentActiveProjectile : public UTalentActive
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, NoClear)
+		TSubclassOf<class AProjectile> Projectile;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		EDefenses Defense;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ClampMin = 0))
+		float Falloff;
+
+	float GetProximity() override { return Range * 4; }
 };
