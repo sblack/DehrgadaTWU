@@ -25,4 +25,6 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Talent")
 		void Use_Target(const class UTalentActive* talent, class ADehrgadaTWUCharacter* user, const TScriptInterface<ITargetableInterface>& target) const;
 	
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Talent")
+		void SpawnAura(const class UTalentAura* talent, class ADehrgadaTWUCharacter* user, class AAreaOfEffect*& outAura);
 };

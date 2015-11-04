@@ -19,4 +19,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 		virtual void Apply(TScriptInterface<ITargetableInterface> target, class ADehrgadaTWUCharacter* user, FVector location = FVector::ZeroVector) override;
+
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+		virtual void Remove(TScriptInterface<ITargetableInterface> target) override;
 };

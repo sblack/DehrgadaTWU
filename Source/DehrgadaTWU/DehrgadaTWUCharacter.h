@@ -28,13 +28,19 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "AnimTriggers")
 		bool bCasting;
 
+	UPROPERTY(BlueprintReadOnly)
 	class USheetStats * Stats;
+
+	UPROPERTY(BlueprintReadOnly)
 	class USheetTalents * Talents;
+
+	UPROPERTY(BlueprintReadOnly)
 	class USheetBuffs * Buffs;
 
 	void ApplyDamage(class UDamageData* damage, float mult, int32 add) override;
 	void ApplyHeal(class UHealData* heal) override;
 	void ApplyBuff(class UBuffBase* buff) override;
+	void RemoveBuff(class UBuffBase* buff) override;
 
 	UFUNCTION()
 		float GetDefense(EDefenses defense) const override;

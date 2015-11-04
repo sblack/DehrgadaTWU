@@ -25,6 +25,7 @@ public:
 	virtual void ApplyDamage(class UDamageData* damage, float mult, int32 add) {}
 	virtual void ApplyHeal(class UHealData* heal) {}
 	virtual void ApplyBuff(class UBuffBase* buff) {}
+	virtual void RemoveBuff(class UBuffBase* buff) {}
 
 	UFUNCTION(BlueprintCallable, Category = "Target")
 		virtual float GetDefense(EDefenses defense) const { return 5.f; }

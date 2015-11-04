@@ -5,6 +5,20 @@
 #include "Components/ActorComponent.h"
 #include "SheetTalents.generated.h"
 
+USTRUCT(BlueprintType)
+struct DEHRGADATWU_API FModalTuple
+{
+	GENERATED_USTRUCT_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	class UTalentModal* Talent;
+
+	UPROPERTY(BlueprintReadWrite)
+		bool Active;
+
+	UPROPERTY(BlueprintReadWrite)
+	class AAreaOfEffect* Aura;
+};
 
 UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class DEHRGADATWU_API USheetTalents : public UActorComponent
@@ -25,4 +39,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		TArray<class UTalentActive*> ActiveTalents;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TArray<FModalTuple> ModalTalents;
+
+	void ActDeactModal(UTalentModal* talent, bool activate);
 };

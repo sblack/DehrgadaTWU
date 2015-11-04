@@ -34,7 +34,7 @@ public:
 	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<uint8> AttributesTotal;
 
-	TArray<uint8> AttributesBuff;
+	TArray<int32> AttributesBuff;
 
 	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<int32> Vitals;
@@ -42,7 +42,7 @@ public:
 	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<int32> VitalsTotal;
 
-	TArray<uint8> VitalsBuff;
+	TArray<int32> VitalsBuff;
 
 	UPROPERTY(BlueprintReadWrite)
 		TArray<int32> VitalsCurrent;
@@ -64,7 +64,7 @@ public:
 	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<float> ResistsTotal;
 
-	TArray<uint8> ResistsBuff;
+	TArray<float> ResistsBuff;
 
 	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<float> Defenses;
@@ -72,7 +72,7 @@ public:
 	UPROPERTY(VisibleAnywhere, EditFixedSize, BlueprintReadWrite)
 		TArray<float> DefensesTotal;
 
-	TArray<uint8> DefensesBuff;
+	TArray<float> DefensesBuff;
 
 	FReply UpdateFromDetailPanel();
 

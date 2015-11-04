@@ -26,6 +26,8 @@ public:
 	void ApplyHeal(class UHealData* heal) override;
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Target")
 	void ApplyBuff(class UBuffBase* buff) override;
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Target")
+	void RemoveBuff(class UBuffBase* buff) override;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Target")
 		float GetDefense(EDefenses defense) const override;

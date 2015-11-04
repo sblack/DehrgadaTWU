@@ -4,6 +4,7 @@
 #include "FCommand.h"
 #include "FCommandAttack.h"
 #include "FCommandTalentActive.h"
+#include "FCommandTalentModal.h"
 #include "PCControllerMaster.h"
 #include "DehrgadaTWUCharacter.h"
 #include "SheetTalents.h"
@@ -40,6 +41,14 @@ void UCommandMenuCPP::Prepare(ITargetable target)
 		for (int i = 0; i < ActiveCharacter->Talents->ActiveTalents.Num(); i++)
 		{
 			Commands.Add(new FCommandTalentActive(ActiveCharacter->Talents->ActiveTalents[i], target));
+		}
+		if (target == ActiveCharacter)
+		{
+			for (int i = 0; i < ActiveCharacter->Talents->ModalTalents.Num(); i++)
+			{
+				FModalTuple fmt = ActiveCharacter->Talents->ModalTalents[i];
+				Commands.Add(new FCommandTalentModal(fmt.Talent, !fmt.Active));
+			}
 		}
 	}
 	SetupMenu();

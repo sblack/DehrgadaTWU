@@ -51,6 +51,14 @@ void UCombatEffect::ApplyEffects(TScriptInterface<ITargetableInterface> target, 
 	}
 }
 
+void UCombatEffect::RemoveEffects(TScriptInterface<ITargetableInterface> target, TArray<UCombatEffect*> effects)
+{
+	for (int i = 0; i < effects.Num(); i++)
+	{
+		effects[i]->Remove(target);
+	}
+}
+
 bool UCombatEffectResistable::AttackRoll(TScriptInterface<ITargetableInterface> target, class ADehrgadaTWUCharacter* user)
 {
 	if (bNoDefense) return true;

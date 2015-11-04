@@ -84,15 +84,26 @@ void ACommandDrivenController::LoadCommand()
 	if (Command)
 	{
 		Command->Performer = this;
-		if (Command->GetTarget())
+		if (!Command->bNoMove)
 		{
-			SetNewMoveDestination(Command->GetTarget());
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Pawn!"));
-		}
-		else
-		{
-			SetNewMoveDestination(Command->GetTargetLocation());
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Location!"));
+			if (Command->GetTarget())
+			{
+				if (Command->GetTarget() == GetDehrgadaTWUCharacter())
+				{
+					Command->bNoMove = true;
+				}
+				else
+				{
+					SetNewMoveDestination(Command->GetTarget());
+				}
+
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Pawn!"));
+			}
+			else
+			{
+				SetNewMoveDestination(Command->GetTargetLocation());
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Location!"));
+			}
 		}
 	}
 }
@@ -142,11 +153,11 @@ void ACommandDrivenController::Tick(float DeltaSeconds)
 	if (Command)
 	{
 		float distSqr = FVector::DistSquared(GetDehrgadaTWUCharacter()->GetFeetLocation(), Command->GetTargetLocation());
-		if (distSqr < Command->GetProximitySqr() && !bPerformingCommand)
+		if ((Command->bNoMove || distSqr < Command->GetProximitySqr()) && !bPerformingCommand)
 		{
 			StopMovement();
 			//Command = NULL;
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Performing!"));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Performing!"));
 			if (Command->CanUse(GetDehrgadaTWUCharacter()))
 			{
 				bPerformingCommand = true;

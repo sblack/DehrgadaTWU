@@ -14,6 +14,7 @@ FCommand::FCommand()
 	Name = FText::FromString("Umm...");
 	ID = Count++;
 	BaseAP = 0;
+	bNoMove = false;
 }
 
 FCommand::FCommand(FVector location)
@@ -25,6 +26,7 @@ FCommand::FCommand(FVector location)
 	ID = Count++;
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, location.ToString());
 	BaseAP = 0;
+	bNoMove = false;
 }
 
 FCommand::FCommand(ITargetable target)
@@ -34,6 +36,7 @@ FCommand::FCommand(ITargetable target)
 	Name = FText::FromString("Approach");
 	ID = Count++;
 	BaseAP = 0;
+	bNoMove = false;
 }
 
 FCommand::~FCommand()

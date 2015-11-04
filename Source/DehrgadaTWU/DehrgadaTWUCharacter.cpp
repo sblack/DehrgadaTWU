@@ -47,6 +47,11 @@ void ADehrgadaTWUCharacter::ApplyBuff(UBuffBase* buff)
 	Buffs->ApplyBuff(buff);
 }
 
+void ADehrgadaTWUCharacter::RemoveBuff(UBuffBase* buff)
+{
+	Buffs->RemoveBuff(buff);
+}
+
 float ADehrgadaTWUCharacter::GetDefense(EDefenses defense) const
 {
 	return Stats->DefensesTotal[(int)defense] + 10.f;

@@ -20,22 +20,10 @@ enum class EAreaShape : uint8 //sb091715 - if you somehow come up with more than
  * 
  */
 UCLASS()
-class DEHRGADATWU_API UTalentActive : public UTalent
+class DEHRGADATWU_API UTalentActive : public UTalentNonPassive
 {
 	GENERATED_BODY()
 public:
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ClampMin = 0))
-		int32 HealthCost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ClampMin = 0))
-		int32 ClarityCost;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ClampMin = 0))
-		int32 StaminaCost;
-
-	UFUNCTION(BlueprintPure, Category = "Talents")
-		int32 VitalCost(EVitals vital);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ClampMin = 0))
 		float APCost;

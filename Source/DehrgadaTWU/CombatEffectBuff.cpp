@@ -11,4 +11,10 @@ void UCombatEffectBuff::Apply(TScriptInterface<ITargetableInterface> target, cla
 	}
 }
 
-
+void UCombatEffectBuff::Remove(TScriptInterface<ITargetableInterface> target)
+{
+	for (int i = 0; i < Buffs.Num(); i++)
+	{
+		target->RemoveBuff(Buffs[i]);
+	}
+}

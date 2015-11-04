@@ -33,6 +33,8 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 		float BaseAP;
 
+	bool bNoMove;
+
 	ITargetable GetTarget() const { return Target; }
 
 	FVector	GetTargetLocation() const

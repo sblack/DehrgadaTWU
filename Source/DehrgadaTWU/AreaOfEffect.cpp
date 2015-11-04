@@ -11,24 +11,36 @@ AAreaOfEffect::AAreaOfEffect(const FObjectInitializer& ObjectInitializer)
 	UPrimitiveComponent* prim = Cast<UPrimitiveComponent>(GetRootComponent());
 	prim->bGenerateOverlapEvents = true;
 	prim->SetCollisionProfileName("Trigger");
+
+	bAffectsSelf = bAffectsAllies = bAffectsEnemies = bAffectsLiving = bAffectsDying = bAffectsObjects = true;
 }
 
 void AAreaOfEffect::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 
-	if (OtherActor->IsA<ACharacter>())
+	ITargetable targetable = ITargetableInterface::Targetable(OtherActor);
+	if (targetable != nullptr)
 	{
-		ACharacter* character = Cast<ACharacter>(OtherActor);
+		if (!bAffectsSelf && OtherActor == SelfActor)
+		{
+			return;
+		}
+		//TODO: Allies and Enemies
+		//TODO: Living and Dying
+		if (!bAffectsObjects && !OtherActor->IsA<ADehrgadaTWUCharacter>())
+		{
+			return;
+		}
 		for (int i = 0; i < RecentAffected.Num(); i++)
 		{
-			if (RecentAffected[i].Get<0>() == character)
+			if (RecentAffected[i].Get<0>() == targetable)
 			{
 				return;
 			}
 		}
-		RecentAffected.Emplace(character, AWorldTimer::Instance->GetTimeSeconds() + AWorldTimer::TurnLength);
-		ApplyEffect(character);
+		RecentAffected.Emplace(targetable, AWorldTimer::Instance->GetTimeSeconds() + AWorldTimer::TurnLength);
+		ApplyEffect(targetable);
 	}
 }
 
@@ -38,12 +50,12 @@ void AAreaOfEffect::Tick(float DeltaSeconds)
 	{
 		if (RecentAffected[0].Get<1>() <= AWorldTimer::Instance->GetTimeSeconds())
 		{
-			ACharacter* character = RecentAffected[0].Get<0>();
+			ITargetable targetable = RecentAffected[0].Get<0>();
 			RecentAffected.RemoveAt(0);
-			if (IsOverlappingActor(character))
+			if (IsOverlappingActor(targetable->AsActor()))
 			{
-				RecentAffected.Emplace(character, AWorldTimer::Instance->GetTimeSeconds() + AWorldTimer::TurnLength);
-				ApplyEffect(character);
+				RecentAffected.Emplace(targetable, AWorldTimer::Instance->GetTimeSeconds() + AWorldTimer::TurnLength);
+				ApplyEffect(targetable);
 			}
 		}
 		else
@@ -53,15 +65,14 @@ void AAreaOfEffect::Tick(float DeltaSeconds)
 	}
 }
 
-void AAreaOfEffect::ApplyEffect(ACharacter* Character)
+void AAreaOfEffect::ApplyEffect(ITargetable targetable)
 {
-	TScriptInterface<ITargetableInterface> target = ITargetableInterface::Targetable(Character);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Yo: %f"), AWorldTimer::Instance->GetTimeSeconds()));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Yo: %f"), AWorldTimer::Instance->GetTimeSeconds()));
 	for (int i = 0; i < Effects.Num(); i++)
 	{
-		if (Effects[i]->AttackRoll_NoUser(target, 0))
+		if (Effects[i]->AttackRoll_NoUser(targetable, 0))
 		{
-			Effects[i]->Apply(target, NULL, GetActorLocation());
+			Effects[i]->Apply(targetable, NULL, GetActorLocation());
 		}
 		else
 		{
@@ -70,7 +81,7 @@ void AAreaOfEffect::ApplyEffect(ACharacter* Character)
 				UCombatEffectDamage* dam = Cast<UCombatEffectDamage>(Effects[i]);
 				if (dam->bHalfOnMiss)
 				{
-					dam->Apply_MA(target, NULL, .5f, 0);
+					dam->Apply_MA(targetable, NULL, .5f, 0);
 				}
 			}
 			break;
@@ -78,4 +89,35 @@ void AAreaOfEffect::ApplyEffect(ACharacter* Character)
 	}
 }
 
+void AAreaOfEffect::SetAffects(bool affSelf, bool allies, bool enemies, bool living, bool dying, bool objects)
+{
+	bAffectsSelf = affSelf;
+	bAffectsAllies = allies;
+	bAffectsEnemies = enemies;
+	bAffectsLiving = living;
+	bAffectsDying = dying;
+	bAffectsObjects = objects;
+}
 
+void AAreaOfEffect::FinishSpawning()
+{
+	for (int i = 0; i < RecentAffected.Num();)
+	{
+		ITargetable targetable = RecentAffected[i].Get<0>();
+		if (!bAffectsSelf && targetable->AsActor() == SelfActor)
+		{
+			RecentAffected.RemoveAt(i);
+			continue;
+		}
+		//TODO: Allies and Enemies
+		//TODO: Living and Dying
+		if (!bAffectsObjects && !targetable->AsActor()->IsA<ADehrgadaTWUCharacter>())
+		{
+			RecentAffected.RemoveAt(i);
+			continue;
+		}
+
+		ApplyEffect(targetable);
+		i++;
+	}
+}
