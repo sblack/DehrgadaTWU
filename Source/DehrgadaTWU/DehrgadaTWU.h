@@ -9,6 +9,6 @@
 #include "WorldTimer.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogDehrgadaTWU, Log, All);
-
+DECLARE_LOG_CATEGORY_EXTERN(LogFOW, Log, All);
 
 #endif

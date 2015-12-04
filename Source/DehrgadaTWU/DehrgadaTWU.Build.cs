@@ -6,7 +6,7 @@ public class DehrgadaTWU : ModuleRules
 {
 	public DehrgadaTWU(TargetInfo Target)
 	{
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "PropertyEditor" });
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "PropertyEditor", "RHI", "RenderCore" });
 
         PrivateDependencyModuleNames.AddRange(new string[] { });
 
