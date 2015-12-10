@@ -156,6 +156,11 @@ void APCControllerMaster::ReceiveCommandFromGUI(FCommand* command)
 	Slaves[CurrentSlave]->ReceiveCommand(command);
 }
 
+APCControllerSlave* APCControllerMaster::ActiveSlave()
+{
+	return Slaves[CurrentSlave];
+}
+
 ADehrgadaTWUCharacter* APCControllerMaster::ActiveCharacter()
 {
 	return Slaves[CurrentSlave]->GetDehrgadaTWUCharacter();

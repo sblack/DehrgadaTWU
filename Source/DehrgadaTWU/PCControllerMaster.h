@@ -24,6 +24,12 @@ public:
 
 	void SwitchToSlave(int slaveIndex);
 
+	UFUNCTION(BlueprintPure, Category = "Default")
+	class APCControllerSlave* ActiveSlave();
+
+	UFUNCTION(BlueprintPure, Category = "Default")
+	class ADehrgadaTWUCharacter* ActiveCharacter();
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -45,9 +51,6 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Commands")
 	class UCommandMenuCPP* CommandMenu;
-
-	UFUNCTION(BlueprintPure, Category = "Default")
-	class ADehrgadaTWUCharacter* ActiveCharacter();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Default")
 		void OnActiveCharacterChanged();

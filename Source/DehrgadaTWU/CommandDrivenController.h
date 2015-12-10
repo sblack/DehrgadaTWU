@@ -6,6 +6,7 @@
 #include "InitiativeObjectInterface.h"
 #include "FCommand.h"
 #include "FCommandAttack.h"
+#include "FCommandConsumeItem.h"
 #include "CommandDrivenController.generated.h"
 
 /**
@@ -81,4 +82,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Command")
 		void Command_Attack(TScriptInterface<ITargetableInterface> target) { ReceiveCommand(new FCommandAttack(target)); }
+
+	UFUNCTION(BlueprintCallable, Category = "Command")
+		void Command_ConsumeItem(class UItemConsumable* item) { ReceiveCommand(new FCommandConsumeItem(item)); }
 };
