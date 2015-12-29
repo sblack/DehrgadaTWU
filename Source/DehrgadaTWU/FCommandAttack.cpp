@@ -6,6 +6,9 @@
 #include "SheetStats.h"
 #include "RollCalculatorCPP.h"
 #include "DamageData.h"
+#include "ItemWeapon.h"
+#include "Attack.h"
+#include "CombatEffect.h"
 #include "FCommandAttack.h"
 
 FCommandAttack::FCommandAttack() : FCommand()
@@ -18,6 +21,37 @@ FCommandAttack::FCommandAttack(ITargetable target) : FCommand(target)
 {
 	Name = FText::FromString("Attack");
 	BaseAP = 4;
+}
+
+FCommandAttack::FCommandAttack(ITargetable target, UItemWeapon* weapon, UAttack* attack) : FCommand(target)
+{
+	if (weapon == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CommandAttack: Weapon is NULL."));
+		return;
+	}
+	if (weapon->Attacks.Num() == 0 || weapon->Attacks[0] == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CommandAttack: Weapon %s has no Attack[0]."), weapon->Name.ToString());
+		return;
+	}
+
+	Weapon = weapon;
+	//may want to make a copy of the attack instead
+	if (attack != nullptr)
+		Attack = attack;
+	else
+		Attack = weapon->Attacks[0];
+
+	if (Attack->PrimaryEffect == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CommandAttack: Weapon %s, Attack %s has no PrimaryEffect."), weapon->Name.ToString(), Attack->Name.ToString());
+		return;
+	}
+
+	Name = Attack->Name;
+	BaseAP = Attack->BaseAP;
+	Proximity = Attack->Range;
 }
 
 FCommandAttack::~FCommandAttack()
@@ -38,6 +72,16 @@ void FCommandAttack::Resolve()
 {
 	UE_LOG(LogTemp, Log, TEXT("-----------"));
 	bool result = true;
+
+	if (Attack->bIsMelee)
+	{
+		if (!Attack->PrimaryEffect->bNoDefense)
+		{
+
+		}
+		ARollCalculatorCPP::Instance->MeleeAttack(Target, Performer->GetDehrgadaTWUCharacter(), EDefenses::Deflection, result);
+	}
+
 	ARollCalculatorCPP::Instance->MeleeAttack(Target, Performer->GetDehrgadaTWUCharacter(), EDefenses::Deflection, result);
 	if (result)
 	{

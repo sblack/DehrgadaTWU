@@ -37,6 +37,15 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	class USheetBuffs * Buffs;
 
+	UPROPERTY(BlueprintReadOnly)
+	class USheetEquipment * Equipment;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	class UStaticMeshComponent * LeftHand;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	class UStaticMeshComponent * RightHand;
+
 	void ApplyDamage(class UDamageData* damage, float mult, int32 add) override;
 	void ApplyHeal(class UHealData* heal) override;
 	void ApplyBuff(class UBuffBase* buff) override;

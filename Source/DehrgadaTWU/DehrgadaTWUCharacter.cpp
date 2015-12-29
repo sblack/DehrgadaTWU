@@ -4,6 +4,7 @@
 #include "SheetStats.h"
 #include "SheetTalents.h"
 #include "SheetBuffs.h"
+#include "SheetEquipment.h"
 #include "DehrgadaTWUCharacter.h"
 
 ADehrgadaTWUCharacter::ADehrgadaTWUCharacter()
@@ -16,6 +17,11 @@ ADehrgadaTWUCharacter::ADehrgadaTWUCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
+
+	LeftHand = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftHand"));
+	LeftHand->AttachTo(GetMesh(), "accessory_L1_SKL");
+	RightHand = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightHand"));
+	RightHand->AttachTo(GetMesh(), "accessory_R1_SKL");
 }
 
 void ADehrgadaTWUCharacter::BeginPlay()
@@ -30,6 +36,9 @@ void ADehrgadaTWUCharacter::BeginPlay()
 
 	Buffs = (USheetBuffs*)GetComponentByClass(USheetBuffs::StaticClass());
 	Buffs->Character = this;
+
+	Equipment = (USheetEquipment*)GetComponentByClass(USheetEquipment::StaticClass());
+	Equipment->Character = this;
 }
 
 void ADehrgadaTWUCharacter::ApplyDamage(UDamageData* damage, float mult, int32 add)

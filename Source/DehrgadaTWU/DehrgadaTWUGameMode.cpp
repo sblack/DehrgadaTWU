@@ -4,6 +4,7 @@
 #include "DehrgadaTWUGameMode.h"
 #include "PCControllerMaster.h"
 #include "DetailCustomizations/SheetStatsCustomization.h"
+#include "DetailCustomizations/SheetEquipmentCustomization.h"
 #include "DehrgadaTWUCharacter.h"
 
 ADehrgadaTWUGameMode::ADehrgadaTWUGameMode()
@@ -26,4 +27,5 @@ ADehrgadaTWUGameMode::ADehrgadaTWUGameMode()
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	//Custom detail views
 	PropertyModule.RegisterCustomClassLayout("SheetStats", FOnGetDetailCustomizationInstance::CreateStatic(&SheetStatsCustomization::MakeInstance));
+	PropertyModule.RegisterCustomClassLayout("SheetEquipment", FOnGetDetailCustomizationInstance::CreateStatic(&SheetEquipmentCustomization::MakeInstance));
 }

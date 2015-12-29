@@ -17,6 +17,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UItemBase* Item;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = 1))
+		int32 Count;
+
 	// Sets default values for this actor's properties
 	AItemActor();
 

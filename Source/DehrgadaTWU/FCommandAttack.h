@@ -13,8 +13,12 @@ struct DEHRGADATWU_API FCommandAttack : public FCommand
 {
 	GENERATED_USTRUCT_BODY()
 public:
+	class UAttack* Attack;
+	class UItemWeapon* Weapon;
+
 	FCommandAttack();
 	FCommandAttack(ITargetable target);
+	FCommandAttack(ITargetable target, class UItemWeapon* weapon, class UAttack* attack = nullptr);
 	~FCommandAttack();
 
 	virtual bool CanUse(class ADehrgadaTWUCharacter* user) override;

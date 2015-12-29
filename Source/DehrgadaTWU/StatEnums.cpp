@@ -5,6 +5,7 @@ UEnum* StatEnums::AttributesPtr;
 UEnum* StatEnums::VitalsPtr;
 UEnum* StatEnums::DamagePtr;
 UEnum* StatEnums::DefensesPtr;
+UEnum* StatEnums::EquipPtr;
 
 UEnum* StatEnums::Attributes()
 {
@@ -40,4 +41,13 @@ UEnum* StatEnums::Defenses()
 		DefensesPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("EDefenses"), true);
 	}
 	return DefensesPtr;
+};
+
+UEnum* StatEnums::EquipSlots()
+{
+	if (EquipPtr == nullptr)
+	{
+		EquipPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("EEquipSlot"), true);
+	}
+	return EquipPtr;
 };
