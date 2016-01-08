@@ -28,7 +28,6 @@ private:
 	void LateBeginPlay();
 	//applies all the effects of the item in slot (including model)
 	void ApplyEquipment(EEquipSlot slot);
-
 public:	
 
 	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadWrite)
@@ -36,6 +35,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	class ADehrgadaTWUCharacter* Character;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UItemWeapon* NaturalWeapon;
 
 	// Sets default values for this component's properties
 	USheetEquipment();
@@ -47,8 +49,10 @@ public:
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 	UFUNCTION(BlueprintPure, Category = Variables)
-	class UItemEquipment* GetItem(EEquipSlot slot) { return Equipment[(int)slot].Item; }
+	class UItemEquipment* GetItem(EEquipSlot slot) { return Equipment[(int)slot].Item; } //the array element is never empty, so this should be fine
 
 	UFUNCTION(BlueprintPure, Category = Variables)
 		FEquipmentEntry GetEntry(EEquipSlot slot) { return Equipment[(int)slot]; }
+
+	TArray<struct FCommandAttack*> GetAttackCommands();
 };

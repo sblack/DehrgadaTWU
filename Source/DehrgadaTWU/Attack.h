@@ -19,13 +19,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		FText Name;
 
-	//Must not be None. Attack mods and target Defense for the attack come from this CombatEffect.
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Instanced)
-	class UCombatEffectResistable* PrimaryEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Instanced)
-		TArray<class UCombatEffect*> Effects;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float CritMult = 2.0f;
 	//percentage
@@ -47,4 +40,15 @@ public:
 	//public AmmoUsage usage = AmmoUsage.Free;
 	//public AttributeName ? damageAttribute = null;
 	//public GameObject projectile;
+
+	//if true, certain CombatEffects (currently only Damage) will be applied at half effect on a miss. 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="AttackRoll")
+		bool bHalfOnMiss;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Instanced)
+		TArray<class UCombatEffect*> Effects;
+
+	//Rolls are made (and effects applied) until one misses.
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Instanced)
+		TArray<class UAttackRoll*> SubsequentRolls;
 };

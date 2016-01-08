@@ -3,6 +3,8 @@
 #include "DehrgadaTWU.h"
 #include "DehrgadaTWUCharacter.h"
 #include "ItemEquipment.h"
+#include "ItemWeapon.h"
+#include "FCommandAttack.h"
 #include "SheetEquipment.h"
 
 FEquipmentEntry::FEquipmentEntry()
@@ -90,4 +92,39 @@ void USheetEquipment::ApplyEquipment(EEquipSlot slot)
 		}
 	}
 
+}
+
+TArray<FCommandAttack*> USheetEquipment::GetAttackCommands()
+{
+	TArray<FCommandAttack*> Commands;
+	bool haveWeapon = false;
+
+	if (Equipment[(int)EEquipSlot::Weapon].Item != nullptr)
+	{
+		UItemWeapon* weapon = Cast<UItemWeapon>(Equipment[(int)EEquipSlot::Weapon].Item);
+		for (int i = 0; i < weapon->Attacks.Num(); i++)
+		{
+			Commands.Add(new FCommandAttack(ITargetable(), weapon, weapon->Attacks[i])); //ITargetable() is a null targetable.
+		}
+		haveWeapon = true;
+	}
+	if (Equipment[(int)EEquipSlot::AltWeapon].Item != nullptr)
+	{
+		UItemWeapon* weapon = Cast<UItemWeapon>(Equipment[(int)EEquipSlot::AltWeapon].Item);
+		for (int i = 0; i < weapon->Attacks.Num(); i++)
+		{
+			Commands.Add(new FCommandAttack(ITargetable(), weapon, weapon->Attacks[i])); //ITargetable() is a null targetable.
+		}
+		haveWeapon = true;
+	}
+
+	if (!haveWeapon && NaturalWeapon != nullptr)
+	{
+		for (int i = 0; i < NaturalWeapon->Attacks.Num(); i++)
+		{
+			Commands.Add(new FCommandAttack(ITargetable(), NaturalWeapon, NaturalWeapon->Attacks[i])); //ITargetable() is a null targetable.
+		}
+	}
+
+	return Commands;
 }

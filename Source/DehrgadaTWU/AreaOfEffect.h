@@ -3,7 +3,6 @@
 #pragma once
 
 #include "Engine/StaticMeshActor.h"
-#include "CombatEffect.h"
 #include "AreaOfEffect.generated.h"
 
 /**
@@ -36,7 +35,10 @@ protected:
 	void ApplyEffect(ITargetable targetable);
 public:
 	UPROPERTY(EditAnywhere, Instanced, BlueprintReadWrite, Category = Default)
-		TArray<UCombatEffect*> Effects;
+		TArray<class UCombatEffect*> Effects;
+
+	UPROPERTY(EditAnywhere, Instanced, BlueprintReadWrite, Category = Default)
+		TArray<class UAttackRoll*> AttackRolls;
 
 	//the "Self" for purposes of who/what is affected
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)

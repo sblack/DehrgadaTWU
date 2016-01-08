@@ -35,7 +35,7 @@ public:
 		bool bCanTargetLocation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Instanced)
-		TArray<UCombatEffect*> Effects;
+		TArray<class UAttackRoll*> AttackRolls;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ClampMin = 0))
 		float Range;

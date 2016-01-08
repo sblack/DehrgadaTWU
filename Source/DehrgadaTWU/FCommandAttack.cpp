@@ -9,6 +9,7 @@
 #include "ItemWeapon.h"
 #include "Attack.h"
 #include "CombatEffect.h"
+#include "AttackRoll.h"
 #include "FCommandAttack.h"
 
 FCommandAttack::FCommandAttack() : FCommand()
@@ -32,7 +33,7 @@ FCommandAttack::FCommandAttack(ITargetable target, UItemWeapon* weapon, UAttack*
 	}
 	if (weapon->Attacks.Num() == 0 || weapon->Attacks[0] == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("CommandAttack: Weapon %s has no Attack[0]."), weapon->Name.ToString());
+		UE_LOG(LogTemp, Error, TEXT("CommandAttack: Weapon %s has no Attack[0]."), *weapon->Name.ToString());
 		return;
 	}
 
@@ -42,12 +43,6 @@ FCommandAttack::FCommandAttack(ITargetable target, UItemWeapon* weapon, UAttack*
 		Attack = attack;
 	else
 		Attack = weapon->Attacks[0];
-
-	if (Attack->PrimaryEffect == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("CommandAttack: Weapon %s, Attack %s has no PrimaryEffect."), weapon->Name.ToString(), Attack->Name.ToString());
-		return;
-	}
 
 	Name = Attack->Name;
 	BaseAP = Attack->BaseAP;
@@ -75,20 +70,19 @@ void FCommandAttack::Resolve()
 
 	if (Attack->bIsMelee)
 	{
-		if (!Attack->PrimaryEffect->bNoDefense)
-		{
-
-		}
 		ARollCalculatorCPP::Instance->MeleeAttack(Target, Performer->GetDehrgadaTWUCharacter(), EDefenses::Deflection, result);
 	}
+	//TODO switch on attack types (melee, ranged, weave)
 
-	ARollCalculatorCPP::Instance->MeleeAttack(Target, Performer->GetDehrgadaTWUCharacter(), EDefenses::Deflection, result);
 	if (result)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Hit!");
 		UE_LOG(LogTemp, Log, TEXT("Hit"));
-		UDamageData* damage = UDamageData::NewDamage(EDamage::Slashing, EVitals::Health, 1, 5);
-		Target->ApplyDamage(damage, 1.f, 0);
+		/*UDamageData* damage = UDamageData::NewDamage(EDamage::Slashing, EVitals::Health, 1, 5);
+		Target->ApplyDamage(damage, 1.f, 0);*/
+		UCombatEffect::ApplyEffects(Target, Weapon->BonusEffects, Performer->GetDehrgadaTWUCharacter(), Performer->GetDehrgadaTWUCharacter()->GetActorLocation());
+		UCombatEffect::ApplyEffects(Target, Attack->Effects, Performer->GetDehrgadaTWUCharacter(), Performer->GetDehrgadaTWUCharacter()->GetActorLocation());
+		UAttackRoll::RollAttacks(Target, Performer->GetDehrgadaTWUCharacter(), Attack->SubsequentRolls, Performer->GetDehrgadaTWUCharacter()->GetActorLocation());
 	}
 	else
 	{

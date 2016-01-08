@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class DEHRGADATWU_API UCombatEffectBuff : public UCombatEffectResistable
+class DEHRGADATWU_API UCombatEffectBuff : public UCombatEffect
 {
 	GENERATED_BODY()
 public:

@@ -6,9 +6,6 @@
 
 UAttack::UAttack()
 {
-	/*Effects.Add(NewObject<class UCombatEffectDamage>((UObject*)GetTransientPackage()));*/
-	//Effects.Add(NewObject<class UCombatEffectDamage>(GetOuter(), "Fred"));
-	PrimaryEffect = NewObject<class UCombatEffectDamage>(GetOuter(), "Fred");
 }
 
 

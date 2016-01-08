@@ -8,6 +8,7 @@
 #include "PCControllerMaster.h"
 #include "DehrgadaTWUCharacter.h"
 #include "SheetTalents.h"
+#include "SheetEquipment.h"
 #include "CombatManagerCPP.h"
 #include "CommandMenuCPP.h"
 
@@ -33,7 +34,7 @@ void UCommandMenuCPP::Prepare(ITargetable target)
 {
 	Commands.Empty();
 	Commands.Add(new FCommand(target));
-	Commands.Add(new FCommandAttack(target));
+	//Commands.Add(new FCommandAttack(target));
 	if (ActiveCharacter == nullptr)
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("ActiveCharacter Missing"));
 	else
@@ -48,6 +49,15 @@ void UCommandMenuCPP::Prepare(ITargetable target)
 			{
 				FModalTuple fmt = ActiveCharacter->Talents->ModalTalents[i];
 				Commands.Add(new FCommandTalentModal(fmt.Talent, !fmt.Active));
+			}
+		}
+		else //unless we want the player able to stab themself, in which case take this out of else
+		{
+			TArray<FCommandAttack*> attacks = ActiveCharacter->Equipment->GetAttackCommands();
+			for (int i = 0; i < attacks.Num(); i++)
+			{
+				attacks[i]->Target = target;
+				Commands.Add(attacks[i]);
 			}
 		}
 	}

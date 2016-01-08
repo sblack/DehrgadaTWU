@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "DehrgadaTWU.h"
+#include "CombatEffect.h"
 #include "CombatEffectDamage.h"
+#include "AttackRoll.h"
 #include "AreaOfEffect.h"
 
 AAreaOfEffect::AAreaOfEffect(const FObjectInitializer& ObjectInitializer)
@@ -68,25 +70,9 @@ void AAreaOfEffect::Tick(float DeltaSeconds)
 void AAreaOfEffect::ApplyEffect(ITargetable targetable)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Yo: %f"), AWorldTimer::Instance->GetTimeSeconds()));
-	for (int i = 0; i < Effects.Num(); i++)
-	{
-		if (Effects[i]->AttackRoll_NoUser(targetable, 0))
-		{
-			Effects[i]->Apply(targetable, NULL, GetActorLocation());
-		}
-		else
-		{
-			if (Effects[i]->IsA<UCombatEffectDamage>())
-			{
-				UCombatEffectDamage* dam = Cast<UCombatEffectDamage>(Effects[i]);
-				if (dam->bHalfOnMiss)
-				{
-					dam->Apply_MA(targetable, NULL, .5f, 0);
-				}
-			}
-			break;
-		}
-	}
+	UCombatEffect::ApplyEffects(targetable, Effects, nullptr, GetActorLocation());
+
+	UAttackRoll::RollAttacks_NoUser(targetable, 0, AttackRolls, GetActorLocation());
 }
 
 void AAreaOfEffect::SetAffects(bool affSelf, bool allies, bool enemies, bool living, bool dying, bool objects)
